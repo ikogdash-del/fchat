@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Чат рабочий (онлайн)</title>
+  <style>
+    body { font-family:sans-serif; margin:20px; background:#f0f2f5; }
+    #chat { border:1px solid #ccc; padding:10px; height:300px; overflow:auto; margin-bottom:10px; background:#fff; border-radius:8px; }
+    .msg { display:flex; align-items:flex-start; margin:8px 0; }
+    .avatar { width:40px; height:40px; border-radius:50%; margin-right:8px; object-fit:cover; border:1px solid #aaa; }
+    .bubble { position:relative; padding:8px 12px; border-radius:12px; max-width:70%; word-wrap:break-word; background:#d0ebff; }
+    .nick { font-weight:bold; margin-right:6px; }
+    .time { display:block; font-size:11px; color:#555; text-align:right; margin-top:4px; }
+    .deleteBtn { position:absolute; top:-10px; right:-10px; background:#e63946; border:none; border-radius:50%; width:22px; height:22px; color:#fff; cursor:pointer; font-size:14px; line-height:22px; text-align:center; display:none; }
+    .bubble:hover .deleteBtn { display:block; }
+    .chatImage { max-width:200px; border-radius:8px; margin-top:5px; }
+    input, button { padding:6px; border:1px solid #ccc; border-radius:6px; margin:2px; cursor:pointer; }
+    #sendBtn { background:#666; color:#fff; }
+    #sendBtn:hover { background:#444; }
+    .color-btn { width:140px; height:30px; color:#fff; border:none; border-radius:6px; cursor:pointer; }
+    #avatarPreview { width:40px; height:40px; border:1px solid #aaa; border-radius:50%; object-fit:cover; margin-left:10px; vertical-align:middle; display:none; }
+  </style>
+</head>
+<body>
+  <h2>Чат рабочий (онлайн)</h2>
+  <div id="chat"></div>
+
+  <div>
+    <input id="nick" placeholder="Ваш ник">
+    <input id="nickColorInput" type="color" style="display:none;">
+    <input id="bubbleColorInput" type="color" style="display:none;">
+    <button id="nickColorBtn" class="color-btn">Цвет ника</button>
+    <button id="bubbleColorBtn" class="color-btn">Цвет облачка</button>
+    <input id="avatarInput" type="file" accept="image/*" style="display:none;">
+    <button id="avatarBtn">Выбрать аватарку</button>
+    <img id="avatarPreview" src="" alt="Превью">
+  </div>
+
+  <div>
+    <input id="text" placeholder="Введите сообщение" style="width:300px;">
+    <input id="fileInput" type="file" accept="image/*">
+    <button id="sendBtn">Отправить</button>
+  </div>
+
+  <!-- Важно: compat-скрипты -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+
+  <script>
+    // Твой config (проверь databaseURL и storageBucket)
+    const firebaseConfig = {
+      apiKey: "AIzaSyATNSmCPnM1og0SO-zJsfD2w9AVC00wiBg",
+      authDomain: "fchat-f223c.firebaseapp.com",
+      databaseURL: "https://fchat-f223c-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "fchat-f223c",
+      storageBucket: "fchat-f223c.appspot.com",
+      messagingSenderId: "850391832152",
+      appId: "1:850391832152:web:39c320446cd898c7859c2d",
+      measurementId: "G-1EVPFPZHPF"
+    };
+
+    // Инициализация
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    console.log("Firebase initialized");
+
+    // Локальные настройки интерфейса
+    let avatarData = "";
+    let nickColor = "#2b5876";
+    let bubbleColor = "#d0ebff";
+
+    function updateButtons() {
+      document.getElementById('nickColorBtn').style.backgroundColor = nickColor;
+      document.getElementById('bubbleColorBtn').style.backgroundColor = bubbleColor;
+      if (avatarData) {
+        const preview = document.getElementById('avatarPreview');
+        preview.src = avatarData;
+        preview.style.display = "inline-block";
+      }
+    }
+
+    function addMessage(msg, key) {
+      const chat = document.getElementById('chat');
+      const wrapper = document.createElement('div');
+      wrapper.className = "msg";
+
+      if (msg.avatar) {
+        const img = document.createElement('img');
+        img.className = "avatar";
+        img.src = msg.avatar;
+        wrapper.appendChild(img);
+      }
+
+      const bubbleEl = document.createElement('div');
+      bubbleEl.className = "bubble";
+      bubbleEl.style.backgroundColor = msg.bubbleColor;
+
+      const textEl = document.createElement('div');
+      textEl.innerHTML = `<span class="nick" style="color:${msg.color}">${msg.nick}:</span> ${msg.text}`;
+      bubbleEl.appendChild(textEl);
+
+      if (msg.image) {
+        const imgEl = document.createElement('img');
+        imgEl.className = "chatImage";
+        imgEl.src = msg.image;
+        bubbleEl.appendChild(imgEl);
+      }
+
+      const timeEl = document.createElement('div');
+      timeEl.className = "time";
+      timeEl.textContent = msg.time;
+      bubbleEl.appendChild(timeEl);
+
+      const delBtn = document.createElement('button');
+      delBtn.className = "deleteBtn";
+      delBtn.textContent = "X";
+      delBtn.onclick = () => {
+        db.ref("messages/" + key).remove().catch(err => {
+          console.error("Ошибка удаления:", err);
+          alert("Удаление не удалось: " + err.code);
+        });
+        wrapper.remove();
+      };
+      bubbleEl.appendChild(delBtn);
+
+      wrapper.appendChild(bubbleEl);
+      chat.appendChild(wrapper);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    // Отправка
+    function send() {
+      const nick = document.getElementById('nick').value.trim() || "Anon";
+      const text = document.getElementById('text').value.trim();
+      const fileInput = document.getElementById('fileInput');
+      const file = fileInput.files[0];
+
+      if (!text && !file) return;
+
+      const now = new Date();
+      const timeStr = now.getHours().toString().padStart(2,'0') + ":" + now.getMinutes().toString().padStart(2,'0');
+      const msg = { nick, text, color: nickColor, avatar: avatarData, bubbleColor, time: timeStr };
+
+      const writeMsg = (m) => {
+        // Используем set с push(), чтобы ловить ошибки
+        const ref = db.ref("messages").push();
+        ref.set(m)
+          .then(() => console.log("Сообщение отправлено"))
+          .catch(err => {
+            console.error("Ошибка записи:", err);
+            alert("Запись не удалась: " + err.code);
+          });
+      };
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = ev => { msg.image = ev.target.result; writeMsg(msg); };
+        reader.readAsDataURL(file);
+      } else {
+        writeMsg(msg);
+      }
+
+      document.getElementById('text').value = '';
+      fileInput.value = '';
+    }
+
+    // Подписка
+    db.ref("messages").on("child_added", snapshot => {
+      addMessage(snapshot.val(), snapshot.key);
+    }, err => {
+      console.error("Ошибка подписки:", err);
+      alert("Нет доступа к чтению: " + err.code);
+    });
+
+    // UI события
+    document.getElementById('sendBtn').onclick = send;
+    document.getElementById('text').addEventListener("keydown", e => { if (e.key==="Enter"){ e.preventDefault(); send(); } });
+    document.getElementById('nickColorBtn').onclick = () => document.getElementById('nickColorInput').click();
+    document.getElementById('bubbleColorBtn').onclick = () => document.getElementById('bubbleColorInput').click();
+    document.getElementById('nickColorInput').addEventListener("input", e => { nickColor = e.target.value; updateButtons(); });
+    document.getElementById('bubbleColorInput').addEventListener("input", e => { bubbleColor = e.target.value; updateButtons(); });
+    document.getElementById('avatarBtn').onclick = () => document.getElementById('avatarInput').click();
+    document.getElementById('avatarInput').addEventListener("change", e => {
+      const file = e.target.files[0]; if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        avatarData = ev.target.result;
+        const preview=document.getElementById('avatarPreview');
+        preview.src=avatarData;
+        preview.style.display="inline-block";
+      };
+      reader.readAsDataURL(file);
+    });
+
+    updateButtons();
+  </script>
+</body>
+</html>
