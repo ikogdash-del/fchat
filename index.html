@@ -5,7 +5,17 @@
   <title>Fchat</title>
   <style>
     body { font-family:sans-serif; margin:20px; background:#f0f2f5; }
-    #chat { border:1px solid #ccc; padding:10px; height:300px; overflow:auto; margin-bottom:10px; background:#fff; border-radius:8px; }
+    #chat {
+  border:1px solid #ccc;
+  padding:10px;
+  height:300px;
+  overflow:auto;
+  margin-bottom:10px;
+  background:#fff;
+  border-radius:8px;
+  /* убери width и margin-left */
+}
+
     .msg { display:flex; align-items:flex-start; margin:8px 0; }
     .avatar { width:40px; height:40px; border-radius:50%; margin-right:8px; object-fit:cover; border:1px solid #aaa; }
     .bubble { position:relative; padding:8px 12px; border-radius:12px; max-width:70%; word-wrap:break-word; background:#d0ebff; }
@@ -196,6 +206,7 @@
   </script>
 </body>
 </html>
+
 
 
 
