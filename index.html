@@ -4,36 +4,118 @@
   <meta charset="utf-8">
   <title>Fchat</title>
   <style>
-    body { font-family:sans-serif; margin:20px; background:#f0f2f5; }
-#chat {
-  border:1px solid #ccc;
-  padding:10px;
-  height:300px;
-  overflow:auto;
-  margin-bottom:10px;
-  background:#fff;
-  border-radius:8px;
-  width: calc(100% - 200px); /* чат занимает всю ширину минус 200px справа */
-}
+    body { font-family: sans-serif; margin: 20px; }
 
-  
+    /* Светлая тема */
+    body.theme-light {
+      --bg: #f0f2f5;
+      --text: #1b1f26;
+      --panel: #ffffff;
+      --panel-border: #cccccc;
+      --chat-bg: #ffffff;
+      --chat-border: #cccccc;
+      --bubble-incoming: #808080;
+      --bubble-outgoing: #808080;
+      --bubble-text: #1b1f26;
+      --nickname: #000000; 
+    }
+
+    /* Тёмная тема */
+    body.theme-dark {
+      --bg: #1e1e1e;
+      --text: #e6e6e6;
+      --panel: #2a2a2a;
+      --panel-border: #444444;
+      --chat-bg: #2a2a2a;
+      --chat-border: #444444;
+      --bubble-incoming: #808080;
+      --bubble-outgoing: #808080;
+      --bubble-text: #ffffff;
+      --nickname: #000000;
+    }
+
+    /* 🌞 Люмия */
+    body.theme-lumia {
+      --bg: #FAF9F6;
+      --text: #333333;
+      --panel: #F5EEDC;
+      --panel-border: #DDDDDD;
+      --chat-bg: #FFFFFF;
+      --chat-border: #DDDDDD;
+      --bubble-incoming: #FFF9C4;
+      --bubble-outgoing: #FFF176; 
+      --bubble-text: #333333;
+      --nickname: #B8860B;
+    }
+
+    /* 🌑 Кекет */
+    body.theme-Keket {
+      --bg: #000000;
+      --text: #FFFFFF;
+      --panel: #808080;
+      --panel-border: #8A2BE2;
+      --chat-bg: #262626;
+      --chat-border: #8A2BE2;
+      --bubble-incoming: #7FFFD4;
+      --bubble-outgoing: #4B0082;
+      --bubble-text: #FFFFFF;
+      --nickname: #7FFFD4; 
+    }
+
+    /* Общие стили */
+    body { background: var(--bg); color: var(--text); transition: background 200ms ease, color 200ms ease; }
+
+    #chat {
+      border:1px solid var(--chat-border);
+      padding:10px;
+      height:300px;
+      overflow:auto;
+      margin:0 500px 10px 0; /* отступ справа */
+      background:var(--chat-bg);
+      border-radius:8px;
+    }
+
     .msg { display:flex; align-items:flex-start; margin:8px 0; }
     .avatar { width:40px; height:40px; border-radius:50%; margin-right:8px; object-fit:cover; border:1px solid #aaa; }
-    .bubble { position:relative; padding:8px 12px; border-radius:12px; max-width:70%; word-wrap:break-word; background:#d0ebff; }
-    .nick { font-weight:bold; margin-right:6px; }
+
+    .bubble { position:relative; padding:8px 12px; border-radius:12px; max-width:70%; word-wrap:break-word; }
+    .bubble.incoming { background: var(--bubble-incoming); color: var(--bubble-text); }
+    .bubble.outgoing { background: var(--bubble-outgoing); color: var(--bubble-text); }
+
+    .nick { font-weight:bold; margin-right:6px; color: var(--nickname); }
     .time { display:block; font-size:11px; color:#555; text-align:right; margin-top:4px; }
+
     .deleteBtn { position:absolute; top:-10px; right:-10px; background:#e63946; border:none; border-radius:50%; width:22px; height:22px; color:#fff; cursor:pointer; font-size:14px; line-height:22px; text-align:center; display:none; }
     .bubble:hover .deleteBtn { display:block; }
+
     .chatImage { max-width:200px; border-radius:8px; margin-top:5px; }
+
     input, button { padding:6px; border:1px solid #ccc; border-radius:6px; margin:2px; cursor:pointer; }
     #sendBtn { background:#666; color:#fff; }
     #sendBtn:hover { background:#444; }
+
     .color-btn { width:140px; height:30px; color:#fff; border:none; border-radius:6px; cursor:pointer; }
     #avatarPreview { width:40px; height:40px; border:1px solid #aaa; border-radius:50%; object-fit:cover; margin-left:10px; vertical-align:middle; display:none; }
-  </style>
+
+    #settingsBtn { position: fixed; right: 12px; top: 12px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: 8px; padding: 6px 8px; cursor: pointer; z-index: 1000; }
+    #settingsPanel { position: fixed; right: 12px; top: 52px; width: 240px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: 12px; padding: 10px 12px; box-shadow: 0 10px 24px rgba(0,0,0,0.25); display: none; z-index: 1001; }
+    #settingsPanel .row { margin:6px 0; }
+    #settingsPanel input[type="radio"] { accent-color: #3b82f6; }
+</style>
 </head>
-<body>
+<body class="theme-light">
   <h2>Fchat</h2>
+
+  <!-- Панель выбора темы -->
+  <button id="settingsBtn" aria-label="Открыть настройки" title="Настройки">⚙️</button>
+  <div id="settingsPanel" role="dialog" aria-modal="true" aria-label="Настройки">
+    <div class="row"><strong>Тема:</strong></div>
+    <div class="row"><label><input type="radio" name="theme" value="light"> Светлая</label></div>
+    <div class="row"><label><input type="radio" name="theme" value="dark"> Тёмная</label></div>
+    <div class="row"><label><input type="radio" name="theme" value="lumia"> Люмия</label></div>
+    <div class="row"><label><input type="radio" name="theme" value="Keket"> Кекет</label></div>
+  </div>
+
   <div id="chat"></div>
 
   <div>
@@ -53,12 +135,12 @@
     <button id="sendBtn">Отправить</button>
   </div>
 
-  <!-- Важно: compat-скрипты -->
+  <!-- Firebase compat -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
 
   <script>
-    // Твой config (проверь databaseURL и storageBucket)
+    // Твой конфиг (из второй части)
     const firebaseConfig = {
       apiKey: "AIzaSyATNSmCPnM1og0SO-zJsfD2w9AVC00wiBg",
       authDomain: "fchat-f223c.firebaseapp.com",
@@ -70,19 +152,21 @@
       measurementId: "G-1EVPFPZHPF"
     };
 
-    // Инициализация
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-    console.log("Firebase initialized");
 
     // Локальные настройки интерфейса
     let avatarData = "";
-    let nickColor = "#000000";
-    let bubbleColor = "#C0C0C0";
+    let nickColor = "";     // пусто — используем цвет темы (--nickname)
+    let bubbleColor = "";   // пусто — используем цвет темы (--bubble-outgoing)
 
     function updateButtons() {
-      document.getElementById('nickColorBtn').style.backgroundColor = nickColor;
-      document.getElementById('bubbleColorBtn').style.backgroundColor = bubbleColor;
+      const themeNick = getComputedStyle(document.body).getPropertyValue('--nickname').trim();
+      document.getElementById('nickColorBtn').style.backgroundColor = nickColor || themeNick;
+
+      const outgoingDefault = getComputedStyle(document.body).getPropertyValue('--bubble-outgoing').trim();
+      document.getElementById('bubbleColorBtn').style.backgroundColor = bubbleColor || outgoingDefault;
+
       if (avatarData) {
         const preview = document.getElementById('avatarPreview');
         preview.src = avatarData;
@@ -103,11 +187,17 @@
       }
 
       const bubbleEl = document.createElement('div');
-      bubbleEl.className = "bubble";
-      bubbleEl.style.backgroundColor = msg.bubbleColor;
+      const currentNick = document.getElementById('nick').value.trim() || "Anon";
+      const isOutgoing = msg.nick === currentNick;
+      bubbleEl.className = "bubble " + (isOutgoing ? "outgoing" : "incoming");
 
+      if (msg.bubbleColor) {
+        bubbleEl.style.backgroundColor = msg.bubbleColor;
+      }
+
+      const themeNick = getComputedStyle(document.body).getPropertyValue('--nickname').trim();
       const textEl = document.createElement('div');
-      textEl.innerHTML = `<span class="nick" style="color:${msg.color}">${msg.nick}:</span> ${msg.text}`;
+      textEl.innerHTML = `<span class="nick" style="color:${msg.color || themeNick}">${msg.nick}:</span> ${msg.text || ''}`;
       bubbleEl.appendChild(textEl);
 
       if (msg.image) {
@@ -119,7 +209,7 @@
 
       const timeEl = document.createElement('div');
       timeEl.className = "time";
-      timeEl.textContent = msg.time;
+      timeEl.textContent = msg.time || '';
       bubbleEl.appendChild(timeEl);
 
       const delBtn = document.createElement('button');
@@ -139,7 +229,6 @@
       chat.scrollTop = chat.scrollHeight;
     }
 
-    // Отправка
     function send() {
       const nick = document.getElementById('nick').value.trim() || "Anon";
       const text = document.getElementById('text').value.trim();
@@ -150,17 +239,22 @@
 
       const now = new Date();
       const timeStr = now.getHours().toString().padStart(2,'0') + ":" + now.getMinutes().toString().padStart(2,'0');
-      const msg = { nick, text, color: nickColor, avatar: avatarData, bubbleColor, time: timeStr };
+
+      const msg = {
+        nick,
+        text,
+        color: nickColor || "",     // персональный цвет ника (если выбран)
+        avatar: avatarData,
+        bubbleColor: bubbleColor || "",
+        time: timeStr
+      };
 
       const writeMsg = (m) => {
-        // Используем set с push(), чтобы ловить ошибки
         const ref = db.ref("messages").push();
-        ref.set(m)
-          .then(() => console.log("Сообщение отправлено"))
-          .catch(err => {
-            console.error("Ошибка записи:", err);
-            alert("Запись не удалась: " + err.code);
-          });
+        ref.set(m).catch(err => {
+          console.error("Ошибка записи:", err);
+          alert("Запись не удалась: " + err.code);
+        });
       };
 
       if (file) {
@@ -175,7 +269,7 @@
       fileInput.value = '';
     }
 
-    // Подписка
+    // Подписка на новые сообщения
     db.ref("messages").on("child_added", snapshot => {
       addMessage(snapshot.val(), snapshot.key);
     }, err => {
@@ -185,30 +279,76 @@
 
     // UI события
     document.getElementById('sendBtn').onclick = send;
-    document.getElementById('text').addEventListener("keydown", e => { if (e.key==="Enter"){ e.preventDefault(); send(); } });
+    document.getElementById('text').addEventListener("keydown", e => {
+      if (e.key === "Enter") { e.preventDefault(); send(); }
+    });
+
     document.getElementById('nickColorBtn').onclick = () => document.getElementById('nickColorInput').click();
     document.getElementById('bubbleColorBtn').onclick = () => document.getElementById('bubbleColorInput').click();
-    document.getElementById('nickColorInput').addEventListener("input", e => { nickColor = e.target.value; updateButtons(); });
-    document.getElementById('bubbleColorInput').addEventListener("input", e => { bubbleColor = e.target.value; updateButtons(); });
+
+    document.getElementById('nickColorInput').addEventListener("input", e => {
+      nickColor = e.target.value;
+      updateButtons();
+    });
+    document.getElementById('bubbleColorInput').addEventListener("input", e => {
+      bubbleColor = e.target.value;
+      updateButtons();
+    });
+
     document.getElementById('avatarBtn').onclick = () => document.getElementById('avatarInput').click();
     document.getElementById('avatarInput').addEventListener("change", e => {
       const file = e.target.files[0]; if (!file) return;
       const reader = new FileReader();
       reader.onload = ev => {
         avatarData = ev.target.result;
-        const preview=document.getElementById('avatarPreview');
-        preview.src=avatarData;
-        preview.style.display="inline-block";
+        const preview = document.getElementById('avatarPreview');
+        preview.src = avatarData;
+        preview.style.display = "inline-block";
       };
       reader.readAsDataURL(file);
     });
 
+    // ===== Логика панели настроек (шестерёнка) =====
+    const settingsBtn = document.getElementById('settingsBtn');
+    const settingsPanel = document.getElementById('settingsPanel');
+    const themeRadios = document.querySelectorAll('input[name="theme"]');
+
+    // Восстановить тему
+    const savedTheme = localStorage.getItem('fchat-theme') || 'light';
+    document.body.classList.remove('theme-light','theme-dark','theme-lumia','theme-Keket');
+    document.body.classList.add(`theme-${savedTheme}`);
+    themeRadios.forEach(r => r.checked = r.value === savedTheme);
+
+    // Открытие/закрытие панели
+    settingsBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const open = settingsPanel.style.display === 'block';
+      settingsPanel.style.display = open ? 'none' : 'block';
+    });
+
+    // Закрытие по клику вне
+    document.addEventListener('click', (e) => {
+      if (!settingsPanel.contains(e.target) && e.target !== settingsBtn) {
+        settingsPanel.style.display = 'none';
+      }
+    });
+
+    // Переключение темы
+    themeRadios.forEach(radio => {
+      radio.addEventListener('change', (e) => {
+        const val = e.target.value; // 'light' | 'dark' | 'lumia' | 'Keket'
+        document.body.classList.remove('theme-light','theme-dark','theme-lumia','theme-Keket');
+        document.body.classList.add(`theme-${val}`);
+        localStorage.setItem('fchat-theme', val);
+        updateButtons();
+      });
+    });
+
+    // Первый рендер кнопок
     updateButtons();
   </script>
 </body>
 </html>
-
-
 
 
 
