@@ -61,6 +61,19 @@
       --bubble-text: #FFFFFF;
       --nickname: #7FFFD4; 
     }
+/* 🌌 Космос */
+body.theme-cosmos {
+  --bg: #0b0c10;            /* глубокий тёмный фон */
+  --text: #c5c6c7;          /* светлый текст */
+  --panel: #1f2833;         /* панель в стиле космоса */
+  --panel-border: #45a29e;  /* бирюзовая рамка */
+  --chat-bg: #1f2833;
+  --chat-border: #45a29e;
+  --bubble-incoming: #0d3b66; /* тёмно-синий для входящих */
+  --bubble-outgoing: #45a29e; /* неон-бирюзовый для исходящих */
+  --bubble-text: #ffffff;
+  --nickname: #66fcf1;       /* яркий неон для ников */
+}
 
     /* Общие стили */
     body { background: var(--bg); color: var(--text); transition: background 200ms ease, color 200ms ease; }
@@ -101,6 +114,27 @@
     #settingsPanel { position: fixed; right: 12px; top: 52px; width: 240px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: 12px; padding: 10px 12px; box-shadow: 0 10px 24px rgba(0,0,0,0.25); display: none; z-index: 1001; }
     #settingsPanel .row { margin:6px 0; }
     #settingsPanel input[type="radio"] { accent-color: #3b82f6; }
+
+#emojiBtn {
+  font-size: 18px;
+  padding: 4px 8px;
+  margin-left: 4px;
+  cursor: pointer;
+}
+
+#emojiPanel button {
+  font-size: 20px;
+  padding: 4px;
+  margin: 2px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+#emojiPanel button:hover {
+  transform: scale(1.2);
+}
+
 </style>
 </head>
 <body class="theme-light">
@@ -114,6 +148,7 @@
     <div class="row"><label><input type="radio" name="theme" value="dark"> Тёмная</label></div>
     <div class="row"><label><input type="radio" name="theme" value="lumia"> Люмия</label></div>
     <div class="row"><label><input type="radio" name="theme" value="Keket"> Кекет</label></div>
+<div class="row"><label><input type="radio" name="theme" value="cosmos"> Тёмная бирюза</label></div>
   </div>
 
   <div id="chat"></div>
@@ -128,13 +163,24 @@
     <button id="avatarBtn">Выбрать аватарку</button>
     <img id="avatarPreview" src="" alt="Превью">
   </div>
+<div>
+  <input id="text" placeholder="Введите сообщение" style="width:300px;">
+  <button id="emojiBtn">😊</button>
+  <input id="fileInput" type="file" accept="image/*">
+  <button id="sendBtn">Отправить</button>
+</div>
 
-  <div>
-    <input id="text" placeholder="Введите сообщение" style="width:300px;">
-    <input id="fileInput" type="file" accept="image/*">
-    <button id="sendBtn">Отправить</button>
-  </div>
+<!-- Панель эмодзи -->
+<div id="emojiPanel" style="display:none; margin-top:6px;">
+  <button>😀</button>
+  <button>🤣</button>
+  <button>😐</button>
+  <button>😕</button>
+  <button>😤</button>
+</div>
 
+
+ 
   <!-- Firebase compat -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
@@ -337,7 +383,7 @@
     themeRadios.forEach(radio => {
       radio.addEventListener('change', (e) => {
         const val = e.target.value; // 'light' | 'dark' | 'lumia' | 'Keket'
-        document.body.classList.remove('theme-light','theme-dark','theme-lumia','theme-Keket');
+        document.body.classList.remove('theme-light','theme-dark','theme-lumia','theme-Keket','theme-cosmos');
         document.body.classList.add(`theme-${val}`);
         localStorage.setItem('fchat-theme', val);
         updateButtons();
@@ -346,30 +392,32 @@
 
     // Первый рендер кнопок
     updateButtons();
+// вставка эмодзи в поле ввода
+function addEmoji(emoji) {
+  const input = document.getElementById('text');
+  input.value += emoji;
+  input.focus();
+}
+
+// открытие/закрытие панели
+document.getElementById('emojiBtn').onclick = () => {
+  const panel = document.getElementById('emojiPanel');
+  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+};
+
+// обработка кликов по кнопкам панели
+document.getElementById('emojiPanel').addEventListener('click', (e) => {
+  if (e.target.tagName === 'BUTTON') {
+    addEmoji(e.target.textContent);
+  }
+});
+
   </script>
-  <footer style="text-align:center; padding:10px; font-size:14px; color:#888;">
+<footer style="text-align:center; padding:10px; font-size:14px; color:#888;">
   © Ikogdash, 2025
 </footer>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
