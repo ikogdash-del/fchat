@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <title>Fchat</title>
-  <meta name="description" content="Fchat — кастомный чат с темами, эмодзи и футером © Ikogdash">
-  <meta name="keywords" content="Fchat, чат, GitHub Pages, Ikogdash, эмодзи, темы, онлайн чат">
-  <meta name="author" content="Ikogdash">
+<body>
+  <div id="chat-header" class="chat-header">
+  </div>
   <style>
     body { font-family: sans-serif; margin: 20px; }
 
@@ -100,6 +100,12 @@ body.theme-cosmos {
 
     .nick { font-weight:bold; margin-right:6px; color: var(--nickname); }
     .time { display:block; font-size:11px; color:#555; text-align:right; margin-top:4px; }
+    .user-id {
+  color: #777;
+  font-size: 0.85em;
+  margin-left: 6px;
+}
+
 
     .deleteBtn { position:absolute; top:-10px; right:-10px; background:#e63946; border:none; border-radius:50%; width:22px; height:22px; color:#fff; cursor:pointer; font-size:14px; line-height:22px; text-align:center; display:none; }
     .bubble:hover .deleteBtn { display:block; }
@@ -246,7 +252,12 @@ body.theme-cosmos {
 
       const themeNick = getComputedStyle(document.body).getPropertyValue('--nickname').trim();
       const textEl = document.createElement('div');
-      textEl.innerHTML = `<span class="nick" style="color:${msg.color || themeNick}">${msg.nick}:</span> ${msg.text || ''}`;
+      textEl.innerHTML = `
+  <span class="nick" style="color:${msg.color || themeNick}">${msg.nick}</span>
+  <span class="user-id">ID:${msg.id}</span>: ${msg.text || ''}
+`;
+
+
       bubbleEl.appendChild(textEl);
 
       if (msg.image) {
@@ -291,6 +302,7 @@ body.theme-cosmos {
 
       const msg = {
         nick,
+         id: userID,
         text,
         color: nickColor || "",     // персональный цвет ника (если выбран)
         avatar: avatarData,
@@ -416,6 +428,28 @@ document.getElementById('emojiPanel').addEventListener('click', (e) => {
 });
 
   </script>
+<script>
+  function generateID() {
+    return Math.floor(10000 + Math.random() * 90000);
+  }
+
+  let userID = localStorage.getItem('fchat_user_id');
+  if (!userID) {
+    userID = generateID();
+    localStorage.setItem('fchat_user_id', userID);
+  }
+
+  // Меняем title сразу
+  document.title = `Fchat — чат с характером | Ваш ID: ${userID}`;
+
+  // Дополнительно можно вставить ID в шапку
+  const header = document.getElementById("chat-header");
+  if (header) {
+    header.innerHTML += ` <span style="color:gray; font-size:14px;">Ваш ID: ${userID}</span>`;
+  }
+</script>
+
+
 <footer style="text-align:center; padding:10px; font-size:14px; color:#888;">
   © Ikogdash, 2025
 </footer>
