@@ -2,15 +2,13 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8">
-  <title>Fchat - чат с характером</title>
-  <meta name="description" content="Fchat — уютный онлайн чат с кастомизацией и функционалом. Fchat предназначем сугубо для дружеского и обычного общения.">
+  <title>Fchat</title>
 <body>
   <div id="chat-header" class="chat-header">
   </div>
   <style>
     body { font-family: sans-serif; margin: 20px; }
 
-    /* Светлая тема */
     body.theme-light {
       --bg: #f0f2f5;
       --text: #1b1f26;
@@ -24,7 +22,6 @@
       --nickname: #000000; 
     }
 
-    /* Тёмная тема */
     body.theme-dark {
       --bg: #1e1e1e;
       --text: #e6e6e6;
@@ -38,7 +35,6 @@
       --nickname: #000000;
     }
 
-    /*  Люмия */
     body.theme-lumia {
       --bg: #FAF9F6;
       --text: #333333;
@@ -52,7 +48,6 @@
       --nickname: #B8860B;
     }
 
-    /* Кекет */
     body.theme-Keket {
       --bg: #000000;
       --text: #FFFFFF;
@@ -65,21 +60,20 @@
       --bubble-text: #FFFFFF;
       --nickname: #7FFFD4; 
     }
-    /*  Космос */
+
     body.theme-cosmos {
-      --bg: #0b0c10;           
-      --text: #c5c6c7;          
-      --panel: #1f2833;         
-      --panel-border: #45a29e;  
+      --bg: #0b0c10;
+      --text: #c5c6c7;
+      --panel: #1f2833;
+      --panel-border: #45a29e;
       --chat-bg: #1f2833;
       --chat-border: #45a29e;
-      --bubble-incoming: #0d3b66; 
-      --bubble-outgoing: #45a29e; 
+      --bubble-incoming: #0d3b66;
+      --bubble-outgoing: #45a29e;
       --bubble-text: #ffffff;
-      --nickname: #66fcf1;       
+      --nickname: #66fcf1;
     }
 
-    /* Общие стили */
     body { background: var(--bg); color: var(--text); transition: background 200ms ease, color 200ms ease; }
 
     #chat {
@@ -87,11 +81,11 @@
       padding:10px;
       height:300px;
       overflow:auto;
-      margin:0 500px 10px 0; /* отступ справа */
+      margin:0 500px 10px 0;
       background:var(--chat-bg);
       border-radius:8px;
     }
-    /* Светлая тема */
+
     body.light .updates {
       background: #f9f9f9;
       color: #222;
@@ -108,7 +102,6 @@
       border-left: 3px solid #007acc;
     }
 
-    /* Тёмная тема */
     body.dark .updates {
       background: #222;
       color: #eee;
@@ -125,7 +118,6 @@
       border-left: 3px solid #45a29e;
     }
 
-    /* Бирюзовая тема */
     body.turquoise .updates {
       background: #003333;
       color: #ccffff;
@@ -199,7 +191,6 @@
 <body class="theme-light">
   <h2>Fchat</h2>
 
-  <!-- Панель выбора темы -->
   <button id="settingsBtn" aria-label="Открыть настройки" title="Настройки">⚙️</button>
   <div id="settingsPanel" role="dialog" aria-modal="true" aria-label="Настройки">
     <div class="row"><strong>Тема:</strong></div>
@@ -229,7 +220,6 @@
     <button id="sendBtn">Отправить</button>
   </div>
 
-  <!-- Панель эмодзи -->
   <div id="emojiPanel" style="display:none; margin-top:6px;">
     <button>😀</button>
     <button>🤣</button>
@@ -279,12 +269,10 @@
     </ul>
   </details>
 
-  <!-- Firebase compat -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
 
   <script>
-    
     const firebaseConfig = {
       apiKey: "AIzaSyATNSmCPnM1og0SO-zJsfD2w9AVC00wiBg",
       authDomain: "fchat-f223c.firebaseapp.com",
@@ -299,11 +287,10 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    
     let avatarData = "";
-    let nickColor = "";     
-    let bubbleColor = "";   
-    // ===== ЗАГРУЗКА СОХРАНЁННЫХ НАСТРОЕК ИЗ LOCALSTORAGE =====
+    let nickColor = "";
+    let bubbleColor = "";
+
     if (localStorage.getItem('fchat_nick')) {
       document.getElementById('nick').value = localStorage.getItem('fchat_nick');
     }
@@ -316,7 +303,6 @@
       bubbleColor = localStorage.getItem('fchat_bubbleColor');
     }
 
-    // Загрузка сохранённой аватарки
     if (localStorage.getItem('fchat_avatar')) {
       avatarData = localStorage.getItem('fchat_avatar');
       const preview = document.getElementById('avatarPreview');
@@ -324,13 +310,11 @@
       preview.style.display = "inline-block";
     }
 
-    // Функция для сохранения настроек в localStorage
     function saveSettings() {
       const nick = document.getElementById('nick').value.trim();
       localStorage.setItem('fchat_nick', nick);
       localStorage.setItem('fchat_nickColor', nickColor);
       localStorage.setItem('fchat_bubbleColor', bubbleColor);
-      // Аватарка сохраняется отдельно при выборе файла
     }
 
     function updateButtons() {
@@ -345,7 +329,6 @@
         preview.src = avatarData;
         preview.style.display = "inline-block";
       }
-      
       
       saveSettings();
     }
@@ -403,13 +386,23 @@
       const delBtn = document.createElement('button');
       delBtn.className = "deleteBtn";
       delBtn.textContent = "X";
-      delBtn.onclick = () => {
-        db.ref("messages/" + key).remove().catch(err => {
-          console.error("Ошибка удаления:", err);
-          alert("Удаление не удалось: " + err.code);
-        });
-        wrapper.remove();
-      };
+      
+      // Добавляем кнопку удаления только если userID === "51599"
+      if (userID === "51599") {
+        delBtn.onclick = () => {
+          if (confirm("Вы уверены, что хотите удалить это сообщение?")) {
+            db.ref("messages/" + key).remove().catch(err => {
+              console.error("Ошибка удаления:", err);
+              alert("Удаление не удалось: " + err.code);
+            });
+            wrapper.remove();
+          }
+        };
+      } else {
+        // Для обычных пользователей скрываем кнопку
+        delBtn.style.display = 'none';
+      }
+      
       bubbleEl.appendChild(delBtn);
 
       wrapper.appendChild(bubbleEl);
@@ -432,12 +425,11 @@
         nick,
         id: userID,
         text,
-        color: nickColor || "",    
+        color: nickColor || "",
         avatar: avatarData,
         bubbleColor: bubbleColor || "",
         time: timeStr
       };
-      
       
       const commandResult = handleCommand(msg.text);
       if (commandResult) {
@@ -464,7 +456,6 @@
       fileInput.value = '';
     }
 
-   
     db.ref("messages").on("child_added", snapshot => {
       addMessage(snapshot.val(), snapshot.key);
     }, err => {
@@ -472,7 +463,6 @@
       alert("Нет доступа к чтению: " + err.code);
     });
 
-    
     document.getElementById('sendBtn').onclick = send;
     document.getElementById('text').addEventListener("keydown", e => {
       if (e.key === "Enter") { e.preventDefault(); send(); }
@@ -481,18 +471,15 @@
     document.getElementById('nickColorBtn').onclick = () => document.getElementById('nickColorInput').click();
     document.getElementById('bubbleColorBtn').onclick = () => document.getElementById('bubbleColorInput').click();
 
-    
     document.getElementById('nick').addEventListener('input', function() {
       saveSettings();
     });
 
-    
     document.getElementById('nickColorInput').addEventListener("input", e => {
       nickColor = e.target.value;
       updateButtons();
       saveSettings();
     });
-    
     
     document.getElementById('bubbleColorInput').addEventListener("input", e => {
       bubbleColor = e.target.value;
@@ -500,7 +487,6 @@
       saveSettings();
     });
 
-    
     document.getElementById('avatarBtn').onclick = () => document.getElementById('avatarInput').click();
     document.getElementById('avatarInput').addEventListener("change", e => {
       const file = e.target.files[0]; 
@@ -511,41 +497,35 @@
         const preview = document.getElementById('avatarPreview');
         preview.src = avatarData;
         preview.style.display = "inline-block";
-       
         localStorage.setItem('fchat_avatar', avatarData);
       };
       reader.readAsDataURL(file);
     });
 
-    // ===== Логика панели настроек (шестерёнка) =====
     const settingsBtn = document.getElementById('settingsBtn');
     const settingsPanel = document.getElementById('settingsPanel');
     const themeRadios = document.querySelectorAll('input[name="theme"]');
 
-    
     const savedTheme = localStorage.getItem('fchat-theme') || 'light';
     document.body.classList.remove('theme-light','theme-dark','theme-lumia','theme-Keket');
     document.body.classList.add(`theme-${savedTheme}`);
     themeRadios.forEach(r => r.checked = r.value === savedTheme);
 
-    
     settingsBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       const open = settingsPanel.style.display === 'block';
       settingsPanel.style.display = open ? 'none' : 'block';
     });
 
-    
     document.addEventListener('click', (e) => {
       if (!settingsPanel.contains(e.target) && e.target !== settingsBtn) {
         settingsPanel.style.display = 'none';
       }
     });
 
-    
     themeRadios.forEach(radio => {
       radio.addEventListener('change', (e) => {
-        const val = e.target.value; // 'light' | 'dark' | 'lumia' | 'Keket'
+        const val = e.target.value;
         document.body.classList.remove('theme-light','theme-dark','theme-lumia','theme-Keket','theme-cosmos');
         document.body.classList.add(`theme-${val}`);
         localStorage.setItem('fchat-theme', val);
@@ -553,9 +533,7 @@
       });
     });
 
-    
     updateButtons();
-    
     
     function addEmoji(emoji) {
       const input = document.getElementById('text');
@@ -563,13 +541,11 @@
       input.focus();
     }
 
-    
     document.getElementById('emojiBtn').onclick = () => {
       const panel = document.getElementById('emojiPanel');
       panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
     };
 
-    
     document.getElementById('emojiPanel').addEventListener('click', (e) => {
       if (e.target.tagName === 'BUTTON') {
         addEmoji(e.target.textContent);
@@ -588,14 +564,25 @@
       localStorage.setItem('fchat_user_id', userID);
     }
 
-   
     document.title = `Fchat — чат с характером | Ваш ID: ${userID}`;
 
-    
     const header = document.getElementById("chat-header");
     if (header) {
       header.innerHTML += ` <span style="color:gray; font-size:14px;">Ваш ID: ${userID}</span>`;
     }
+
+    // Обрабатываем уже существующие сообщения при загрузке страницы
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(() => {
+        const deleteBtns = document.querySelectorAll('.deleteBtn');
+        deleteBtns.forEach(btn => {
+          if (userID !== "51599") {
+            btn.style.display = 'none';
+            btn.onclick = null;
+          }
+        });
+      }, 500);
+    });
   </script>
 
   <footer style="text-align:center; padding:10px; font-size:14px; color:#888;">
@@ -603,8 +590,3 @@
   </footer>
 </body>
 </html>
-
-
-
-
-
