@@ -266,6 +266,7 @@
  </ul>
 </details>
 
+
   <details>
     <summary>Контакты и обратная связь</summary>
     <ul>
@@ -351,6 +352,7 @@
       const chat = document.getElementById('chat');
       const wrapper = document.createElement('div');
       wrapper.className = "msg";
+      wrapper.dataset.messageKey = key; // Сохраняем ключ сообщения
 
       if (msg.avatar) {
         const img = document.createElement('img');
@@ -389,14 +391,22 @@
       timeEl.textContent = msg.time || '';
       bubbleEl.appendChild(timeEl);
 
-      const delBtn = document.createElement('button');
-      delBtn.className = "deleteBtn";
-      delBtn.textContent = "X";
+      // Показываем кнопку удаления только для своих сообщений или для администратора
+      const canDelete = msg.id === userID || userID === "51599";
       
-      // Добавляем кнопку удаления только если userID === "51599"
-      if (userID === "51599") {
+      if (canDelete) {
+        const delBtn = document.createElement('button');
+        delBtn.className = "deleteBtn";
+        delBtn.textContent = "X";
+        delBtn.title = "Удалить сообщение";
+        
         delBtn.onclick = () => {
-          if (confirm("Вы уверены, что хотите удалить это сообщение?")) {
+          let confirmationText = "Вы уверены, что хотите удалить это сообщение?";
+          if (msg.id !== userID) {
+            confirmationText = `Вы удаляете сообщение пользователя ${msg.nick} (ID: ${msg.id}). Продолжить?`;
+          }
+          
+          if (confirm(confirmationText)) {
             db.ref("messages/" + key).remove().catch(err => {
               console.error("Ошибка удаления:", err);
               alert("Удаление не удалось: " + err.code);
@@ -404,12 +414,9 @@
             wrapper.remove();
           }
         };
-      } else {
-        // Для обычных пользователей скрываем кнопку
-        delBtn.style.display = 'none';
+        
+        bubbleEl.appendChild(delBtn);
       }
-      
-      bubbleEl.appendChild(delBtn);
 
       wrapper.appendChild(bubbleEl);
       chat.appendChild(wrapper);
@@ -577,18 +584,72 @@
       header.innerHTML += ` <span style="color:gray; font-size:14px;">Ваш ID: ${userID}</span>`;
     }
 
-    // Обрабатываем уже существующие сообщения при загрузке страницы
-    document.addEventListener('DOMContentLoaded', function() {
+    // Функция для перерисовки кнопок удаления при загрузке страницы
+    function updateDeleteButtons() {
       setTimeout(() => {
-        const deleteBtns = document.querySelectorAll('.deleteBtn');
-        deleteBtns.forEach(btn => {
-          if (userID !== "51599") {
-            btn.style.display = 'none';
-            btn.onclick = null;
+        const messages = document.querySelectorAll('.msg');
+        messages.forEach(wrapper => {
+          const bubble = wrapper.querySelector('.bubble');
+          if (!bubble) return;
+          
+          const existingBtn = bubble.querySelector('.deleteBtn');
+          if (existingBtn) existingBtn.remove();
+          
+          // Получаем ID сообщения из структуры
+          const userIdSpan = bubble.querySelector('.user-id');
+          if (!userIdSpan) return;
+          
+          const userIdMatch = userIdSpan.textContent.match(/ID:(\d+)/);
+          if (!userIdMatch) return;
+          
+          const messageUserId = userIdMatch[1];
+          
+          // Показываем кнопку удаления только для своих сообщений или для администратора
+          if (messageUserId === userID || userID === "51599") {
+            const delBtn = document.createElement('button');
+            delBtn.className = "deleteBtn";
+            delBtn.textContent = "X";
+            delBtn.title = "Удалить сообщение";
+            
+            const messageKey = wrapper.dataset.messageKey;
+            
+            delBtn.onclick = () => {
+              let confirmationText = "Вы уверены, что хотите удалить это сообщение?";
+              
+              // Если администратор удаляет не свое сообщение
+              if (userID === "51599" && messageUserId !== userID) {
+                const nickSpan = bubble.querySelector('.nick');
+                const nick = nickSpan ? nickSpan.textContent : "пользователь";
+                confirmationText = `Вы удаляете сообщение пользователя ${nick} (ID: ${messageUserId}). Продолжить?`;
+              }
+              
+              if (confirm(confirmationText)) {
+                db.ref("messages/" + messageKey).remove().catch(err => {
+                  console.error("Ошибка удаления:", err);
+                  alert("Удаление не удалось: " + err.code);
+                });
+                wrapper.remove();
+              }
+            };
+            
+            bubble.appendChild(delBtn);
           }
         });
-      }, 500);
-    });
+      }, 1000);
+    }
+
+    // Вызываем при загрузке страницы
+    document.addEventListener('DOMContentLoaded', updateDeleteButtons);
+    
+    // Также вызываем при каждом добавлении нового сообщения
+    const originalAddMessage = window.addMessage;
+    if (originalAddMessage) {
+      window.addMessage = function(msg, key) {
+        const result = originalAddMessage(msg, key);
+        setTimeout(updateDeleteButtons, 100);
+        return result;
+      };
+    }
   </script>
 
   <footer style="text-align:center; padding:10px; font-size:14px; color:#888;">
