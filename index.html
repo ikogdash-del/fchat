@@ -51,9 +51,9 @@
     body.theme-Keket {
       --bg: #000000;
       --text: #FFFFFF;
-      --panel: #808080;
+      --panel: #000000;
       --panel-border: #8A2BE2;
-      --chat-bg: #262626;
+      --chat-bg: #000000;
       --chat-border: #8A2BE2;
       --bubble-incoming: #7FFFD4;
       --bubble-outgoing: #4B0082;
@@ -76,62 +76,16 @@
 
     body { background: var(--bg); color: var(--text); transition: background 200ms ease, color 200ms ease; }
 
+    /* Чат с отступом для правой панели */
     #chat {
       border:1px solid var(--chat-border);
       padding:10px;
       height:300px;
       overflow:auto;
-      margin:0 500px 10px 0;
+     margin:0 500px 10px 0;
       background:var(--chat-bg);
       border-radius:8px;
-    }
-
-    body.light .updates {
-      background: #f9f9f9;
-      color: #222;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 12px;
-    }
-    body.light .updates summary {
-      color: #007acc;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    body.light .updates[open] {
-      border-left: 3px solid #007acc;
-    }
-
-    body.dark .updates {
-      background: #222;
-      color: #eee;
-      border: 1px solid #444;
-      border-radius: 8px;
-      padding: 12px;
-    }
-    body.dark .updates summary {
-      color: #45a29e;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    body.dark .updates[open] {
-      border-left: 3px solid #45a29e;
-    }
-
-    body.turquoise .updates {
-      background: #003333;
-      color: #ccffff;
-      border: 1px solid #006666;
-      border-radius: 8px;
-      padding: 12px;
-    }
-    body.turquoise .updates summary {
-      color: #00cccc;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    body.turquoise .updates[open] {
-      border-left: 3px solid #00cccc;
+   
     }
 
     .msg { display:flex; align-items:flex-start; margin:8px 0; }
@@ -162,7 +116,7 @@
     .color-btn { width:140px; height:30px; color:#fff; border:none; border-radius:6px; cursor:pointer; }
     #avatarPreview { width:40px; height:40px; border:1px solid #aaa; border-radius:50%; object-fit:cover; margin-left:10px; vertical-align:middle; display:none; }
 
-    #settingsBtn { position: fixed; right: 12px; top: 12px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: 8px; padding: 6px 8px; cursor: pointer; z-index: 1000; }
+#settingsBtn { position: fixed; right: 12px; top: 12px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: 8px; padding: 6px 8px; cursor: pointer; z-index: 1000; }
     #settingsPanel { position: fixed; right: 12px; top: 52px; width: 240px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: 12px; padding: 10px 12px; box-shadow: 0 10px 24px rgba(0,0,0,0.25); display: none; z-index: 1001; }
     #settingsPanel .row { margin:6px 0; }
     #settingsPanel input[type="radio"] { accent-color: #3b82f6; }
@@ -188,16 +142,97 @@
     }
 
     /* Цвет кнопок с эмодзи в разных темах */
-body.theme-light #emojiPanel button,
-body.theme-lumia #emojiPanel button {
-  color: #000000;
-}
+    body.theme-light #emojiPanel button,
+    body.theme-lumia #emojiPanel button {
+      color: #000000;
+    }
 
-body.theme-dark #emojiPanel button,
-body.theme-Keket #emojiPanel button,
-body.theme-cosmos #emojiPanel button {
-  color: #ffffff;
-}
+    body.theme-dark #emojiPanel button,
+    body.theme-Keket #emojiPanel button,
+    body.theme-cosmos #emojiPanel button {
+      color: #ffffff;
+    }
+
+ /* Правая панель с онлайн пользователями - ЛЕВЕЕ настроек */
+    #right-sidebar {
+      position: fixed;
+      right: 80px; /* Оставляем место для кнопки настроек */
+      top: 110px;
+      width: 280px; /* Чуть уже */
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      max-height: calc(100vh - 40px);
+      overflow-y: auto;
+      z-index: 1000; /* Ниже настроек */
+    }
+
+    .online-user {
+      transition: all 0.2s ease;
+    }
+
+
+    .online-user:hover {
+      transform: translateX(-3px);
+      background: var(--bg) !important;
+    }
+
+    #right-sidebar::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    #right-sidebar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    #right-sidebar::-webkit-scrollbar-thumb {
+      background: var(--panel-border);
+      border-radius: 3px;
+    }
+
+    #right-sidebar::-webkit-scrollbar-thumb:hover {
+      background: var(--text);
+    }
+
+   .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      box-shadow: 0 0 5px currentColor;
+    }
+
+    .status-green { background: #4CAF50; color: #4CAF50; }
+    .status-orange { background: #FF9800; color: #FF9800; }
+    .status-red { background: #F44336; color: #F44336; }
+ 
+    /* Для узких экранов */
+    @media (max-width: 900px) {
+      #chat {
+        width: 100%;
+        margin-right: 0;
+      }
+      
+      #right-sidebar {
+        position: relative;
+        right: auto;
+        top: auto;
+        width: 100%;
+        margin-top: 20px;
+        max-height: 200px;
+      }
+      
+      #settingsBtn {
+        right: 10px;
+        top: 10px;
+      }
+      
+      #settingsPanel {
+        right: 10px;
+        top: 50px;
+      }
+    }
   </style>
 </head>
 <body class="theme-light">
@@ -211,6 +246,27 @@ body.theme-cosmos #emojiPanel button {
     <div class="row"><label><input type="radio" name="theme" value="lumia"> Люмия</label></div>
     <div class="row"><label><input type="radio" name="theme" value="Keket"> Кекет</label></div>
     <div class="row"><label><input type="radio" name="theme" value="cosmos"> Тёмная бирюза</label></div>
+  </div>
+
+  <!-- Правая панель с онлайн пользователями -->
+  <div id="right-sidebar">
+    <h3 style="margin-top: 0; color: var(--text);">👥 Пользователи онлайн</h3>
+    
+    <div style="margin-bottom: 15px;">
+      <p style="margin: 5px 0;">
+        <strong>Сейчас в сети:</strong> 
+        <span id="onlineCount" style="color: #4CAF50; font-weight: bold;">0</span>
+      </p>
+      <p style="margin: 5px 0; font-size: 13px; color: #888;">
+        (обновляется каждые 10 сек)
+      </p>
+    </div>
+    
+    <div id="onlineUsersList" style="margin-top: 15px;">
+      <p id="noUsersOnline" style="color: #999; font-style: italic; text-align: center;">
+        Загрузка списка...
+      </p>
+    </div>
   </div>
 
   <div id="chat"></div>
@@ -257,7 +313,18 @@ body.theme-cosmos #emojiPanel button {
     <summary>Как пользоваться</summary>
     <ul>
       <li>После захода на сайт вам автоматически выдаётся случайный ID. Он отображается в заголовке страницы и рядом с вашими сообщениями — это ваш «паспорт» в чате.</li>
-      <li>Введите своё имя или псевдоним в поле «Ник». Если поле оставить пустым — будет использоваться никнейм «Anon».</li>
+      <li>
+  В самой правой части сайта есть счётчик пользователей в чате. 
+  Рядом с каждым пользователем отображаются индикаторы‑кружочки, которые показывают статус активности:
+  <ul>
+    <li><span style="color:#4caf50;">●</span> Зелёный — пользователь активен прямо сейчас.</li>
+    <li><span style="color:#ff9800;">●</span> Оранжевый — недавно был активен, имеет плохое соединение или находится в режиме AFK.</li>
+    <li><span style="color:#f44336;">●</span> Красный — не проявлял активности более 12–60 секунд.</li>
+  </ul>
+Счётчик обновляется каждые 5-10 секунд.
+</li>
+
+     <li> Далее введите своё имя или псевдоним в поле «Ник». Если поле оставить пустым — будет использоваться никнейм «Anon».</li>
       <li>Настройте цвет ника и облачка (фон сообщения) через специальные кнопки.</li>
       <li>Добавьте аватарку через кнопку «Выбрать аватарку».</li>
       <li>В правом верхнем углу есть кнопка «шестерёнка». Там можно выбрать тему оформления (светлая, тёмная, Lumia, Keket, Тёмная бирюза).</li>
@@ -285,6 +352,11 @@ body.theme-cosmos #emojiPanel button {
 <li><strong>07.02.2026</strong> —  Добавлены новые команды: <code>/msgs</code> и <code>/8ball</code> </li> 
 <li><strong>07.02.2026</strong> —  В панели эмодзи стандартные смайлы заменены на текстовые каомодзи и другие эмодзи.</li>
 <li><strong>07.02.2026</strong> —  Добавлены новые каомодзи и эмодзи в панель текстовых эмодзи: =)  =(  =3  =0  (≧▽≦)  (⊙_☉)  (；＿；)  ¯\_(ツ)_/¯  (╯°□°）╯︵ ┻━┻  -_-  о_О  (͡° ͜ʖ ͡°). </li> 
+<li><strong>08.02.2026</strong> — Добавлен счётчик пользователей в чате, который обновляется каждые 5-10 секунд.  </li> 
+<li><strong>08.02.2026</strong> — Добавлены индикаторы активности:  зелёный — активен прямо сейчас,
+    оранжевый —  был недавно , афк, плохое соединение,
+    красный — неактивен более 12–60 секунд. </li> 
+<li><strong>08.02.2026</strong> — Улучшена тема оформления «Кекет».</li> 
  </ul> 
 </details>
 
@@ -315,23 +387,38 @@ body.theme-cosmos #emojiPanel button {
 
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
+    const onlineUsersRef = db.ref("onlineUsers");
 
     let avatarData = "";
     let nickColor = "";
     let bubbleColor = "";
+    let userID = localStorage.getItem('fchat_user_id');
 
+    // Генерация ID если нет
+    if (!userID) {
+      userID = Math.floor(10000 + Math.random() * 90000);
+      localStorage.setItem('fchat_user_id', userID);
+    }
+
+    // Установка заголовка страницы с ID
+    document.title = `Fchat — чат с характером | Ваш ID: ${userID}`;
+    
+    // Добавляем ID в заголовок страницы (как раньше)
+    const header = document.getElementById("chat-header");
+    if (header) {
+      header.innerHTML = `<span style="color:gray; font-size:14px;">Ваш ID: ${userID}</span>`;
+    }
+
+    // Загрузка сохраненных настроек
     if (localStorage.getItem('fchat_nick')) {
       document.getElementById('nick').value = localStorage.getItem('fchat_nick');
     }
-
     if (localStorage.getItem('fchat_nickColor')) {
       nickColor = localStorage.getItem('fchat_nickColor');
     }
-
     if (localStorage.getItem('fchat_bubbleColor')) {
       bubbleColor = localStorage.getItem('fchat_bubbleColor');
     }
-
     if (localStorage.getItem('fchat_avatar')) {
       avatarData = localStorage.getItem('fchat_avatar');
       const preview = document.getElementById('avatarPreview');
@@ -367,29 +454,27 @@ body.theme-cosmos #emojiPanel button {
         const roll = Math.floor(Math.random() * 6) + 1;
         return "🎲 Выпало: " + roll;
       }
-if (text === "/msgs") {
-  const msgCount = document.querySelectorAll('.msg').length;
-  return `📊 Сообщений в чате: ${msgCount}`;
-}
-if (text.startsWith("/8ball") || text.startsWith("/ball")) {
-  const answers = [
-    "Да, определенно", "Бесспорно", "Мне кажется — да", "Вероятнее всего",
-    "Спроси позже", "Не могу сейчас сказать", "Сконцентрируйся и спроси опять",
-    "Даже не думай", "Мой ответ — нет", "Перспективы не очень хорошие",
-    "Весьма сомнительно", "Знаки говорят — да"
-  ];
-  return `🔮 ${answers[Math.floor(Math.random() * answers.length)]}`;
-}
+      if (text === "/msgs") {
+        const msgCount = document.querySelectorAll('.msg').length;
+        return `📊 Сообщений в чате: ${msgCount}`;
+      }
+      if (text.startsWith("/8ball") || text.startsWith("/ball")) {
+        const answers = [
+          "Да, определенно", "Бесспорно", "Мне кажется — да", "Вероятнее всего",
+          "Спроси позже", "Не могу сейчас сказать", "Сконцентрируйся и спроси опять",
+          "Даже не думай", "Мой ответ — нет", "Перспективы не очень хорошие",
+          "Весьма сомнительно", "Знаки говорят — да"
+        ];
+        return `🔮 ${answers[Math.floor(Math.random() * answers.length)]}`;
+      }
       return null;
     }
 
-
-         
     function addMessage(msg, key) {
       const chat = document.getElementById('chat');
       const wrapper = document.createElement('div');
       wrapper.className = "msg";
-      wrapper.dataset.messageKey = key; // Сохраняем ключ сообщения
+      wrapper.dataset.messageKey = key;
 
       if (msg.avatar) {
         const img = document.createElement('img');
@@ -428,7 +513,6 @@ if (text.startsWith("/8ball") || text.startsWith("/ball")) {
       timeEl.textContent = msg.time || '';
       bubbleEl.appendChild(timeEl);
 
-      // Показываем кнопку удаления только для своих сообщений или для администратора
       const canDelete = msg.id === userID || userID === "51599";
       
       if (canDelete) {
@@ -506,6 +590,124 @@ if (text.startsWith("/8ball") || text.startsWith("/ball")) {
       fileInput.value = '';
     }
 
+    // ========== СИСТЕМА ОНЛАЙН ПОЛЬЗОВАТЕЛЕЙ ==========
+
+    function updateOnlineStatus() {
+      const userRef = onlineUsersRef.child(userID);
+      const nick = document.getElementById('nick').value.trim() || "Anon";
+      
+      userRef.set({
+        id: userID,
+        nick: nick,
+        lastSeen: firebase.database.ServerValue.TIMESTAMP,
+        avatar: avatarData || "",
+        color: nickColor || ""
+      });
+    }
+
+    function setupOnlineTracker() {
+      updateOnlineStatus();
+      
+      setInterval(updateOnlineStatus, 5000);
+      
+      onlineUsersRef.on('value', (snapshot) => {
+        const users = snapshot.val();
+        const onlineList = document.getElementById('onlineUsersList');
+        const onlineCount = document.getElementById('onlineCount');
+        
+        if (!users) {
+          onlineList.innerHTML = '<p id="noUsersOnline" style="color: #999; font-style: italic; text-align: center;">Нет пользователей онлайн</p>';
+          onlineCount.textContent = '0';
+          return;
+        }
+        
+        const now = Date.now();
+        const activeUsers = Object.values(users).filter(user => {
+          return now - user.lastSeen < 15000;
+        });
+        
+        onlineCount.textContent = activeUsers.length;
+        
+        if (activeUsers.length === 0) {
+          onlineList.innerHTML = '<p id="noUsersOnline" style="color: #999; font-style: italic; text-align: center;">Нет пользователей онлайн</p>';
+          return;
+        }
+        
+        activeUsers.sort((a, b) => b.lastSeen - a.lastSeen);
+        
+        let usersHTML = '';
+        activeUsers.forEach(user => {
+          const isCurrentUser = user.id === userID;
+          const lastSeenSec = Math.floor((now - user.lastSeen) / 1000);
+          let statusClass = 'status-red';
+          let statusTitle = 'Был ' + lastSeenSec + ' сек назад';
+          
+          if (lastSeenSec < 5) {
+            statusClass = 'status-green';
+            statusTitle = 'Активен сейчас';
+          } else if (lastSeenSec < 10) {
+            statusClass = 'status-orange';
+            statusTitle = 'Был недавно';
+          }
+          
+          usersHTML += `
+            <div class="online-user" style="
+              display: flex;
+              align-items: center;
+              margin: 8px 0;
+              padding: 8px;
+              background: ${isCurrentUser ? 'rgba(76, 175, 80, 0.1)' : 'transparent'};
+              border-radius: 8px;
+              border: 1px solid ${isCurrentUser ? '#4CAF50' : 'var(--panel-border)'};
+            ">
+              ${user.avatar ? `
+                <img src="${user.avatar}" style="
+                  width: 32px;
+                  height: 32px;
+                  border-radius: 50%;
+                  margin-right: 10px;
+                  border: 1px solid ${user.color || '#aaa'};
+                " alt="${user.nick}">
+              ` : `
+                <div style="
+                  width: 32px;
+                  height: 32px;
+                  border-radius: 50%;
+                  margin-right: 10px;
+                  background: ${user.color || '#666'};
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  color: white;
+                  font-size: 12px;
+                ">${user.nick.charAt(0)}</div>
+              `}
+              
+              <div style="flex-grow: 1;">
+                <div style="display: flex; align-items: center;">
+                  <strong style="color: ${user.color || 'var(--text)'};">${user.nick}</strong>
+                  ${isCurrentUser ? '<span style="margin-left: 5px; font-size: 11px; color: #4CAF50;">(Вы)</span>' : ''}
+                </div>
+                <div style="font-size: 11px; color: #888;">
+                  ID: ${user.id}
+                </div>
+              </div>
+              
+              <div class="status-dot ${statusClass}" title="${statusTitle}"></div>
+            </div>
+          `;
+        });
+        
+        onlineList.innerHTML = usersHTML;
+      });
+      
+      window.addEventListener('beforeunload', function() {
+        onlineUsersRef.child(userID).remove();
+      });
+    }
+
+    // ========== ОСНОВНЫЕ ОБРАБОТЧИКИ ==========
+
     db.ref("messages").on("child_added", snapshot => {
       addMessage(snapshot.val(), snapshot.key);
     }, err => {
@@ -523,6 +725,7 @@ if (text.startsWith("/8ball") || text.startsWith("/ball")) {
 
     document.getElementById('nick').addEventListener('input', function() {
       saveSettings();
+      updateOnlineStatus();
     });
 
     document.getElementById('nickColorInput').addEventListener("input", e => {
@@ -548,6 +751,7 @@ if (text.startsWith("/8ball") || text.startsWith("/ball")) {
         preview.src = avatarData;
         preview.style.display = "inline-block";
         localStorage.setItem('fchat_avatar', avatarData);
+        updateOnlineStatus();
       };
       reader.readAsDataURL(file);
     });
@@ -583,8 +787,6 @@ if (text.startsWith("/8ball") || text.startsWith("/ball")) {
       });
     });
 
-    updateButtons();
-    
     function addEmoji(emoji) {
       const input = document.getElementById('text');
       input.value += emoji;
@@ -601,92 +803,10 @@ if (text.startsWith("/8ball") || text.startsWith("/ball")) {
         addEmoji(e.target.textContent);
       }
     });
-  </script>
-  
-  <script>
-    function generateID() {
-      return Math.floor(10000 + Math.random() * 90000);
-    }
 
-    let userID = localStorage.getItem('fchat_user_id');
-    if (!userID) {
-      userID = generateID();
-      localStorage.setItem('fchat_user_id', userID);
-    }
-
-    document.title = `Fchat — чат с характером | Ваш ID: ${userID}`;
-
-    const header = document.getElementById("chat-header");
-    if (header) {
-      header.innerHTML += ` <span style="color:gray; font-size:14px;">Ваш ID: ${userID}</span>`;
-    }
-
-    // Функция для перерисовки кнопок удаления при загрузке страницы
-    function updateDeleteButtons() {
-      setTimeout(() => {
-        const messages = document.querySelectorAll('.msg');
-        messages.forEach(wrapper => {
-          const bubble = wrapper.querySelector('.bubble');
-          if (!bubble) return;
-          
-          const existingBtn = bubble.querySelector('.deleteBtn');
-          if (existingBtn) existingBtn.remove();
-          
-          // Получаем ID сообщения из структуры
-          const userIdSpan = bubble.querySelector('.user-id');
-          if (!userIdSpan) return;
-          
-          const userIdMatch = userIdSpan.textContent.match(/ID:(\d+)/);
-          if (!userIdMatch) return;
-          
-          const messageUserId = userIdMatch[1];
-          
-          // Показываем кнопку удаления только для своих сообщений или для администратора
-          if (messageUserId === userID || userID === "51599") {
-            const delBtn = document.createElement('button');
-            delBtn.className = "deleteBtn";
-            delBtn.textContent = "X";
-            delBtn.title = "Удалить сообщение";
-            
-            const messageKey = wrapper.dataset.messageKey;
-            
-            delBtn.onclick = () => {
-              let confirmationText = "Вы уверены, что хотите удалить это сообщение?";
-              
-              // Если администратор удаляет не свое сообщение
-              if (userID === "51599" && messageUserId !== userID) {
-                const nickSpan = bubble.querySelector('.nick');
-                const nick = nickSpan ? nickSpan.textContent : "пользователь";
-                confirmationText = `Вы удаляете сообщение пользователя ${nick} (ID: ${messageUserId}). Продолжить?`;
-              }
-              
-              if (confirm(confirmationText)) {
-                db.ref("messages/" + messageKey).remove().catch(err => {
-                  console.error("Ошибка удаления:", err);
-                  alert("Удаление не удалось: " + err.code);
-                });
-                wrapper.remove();
-              }
-            };
-            
-            bubble.appendChild(delBtn);
-          }
-        });
-      }, 1000);
-    }
-
-    // Вызываем при загрузке страницы
-    document.addEventListener('DOMContentLoaded', updateDeleteButtons);
-    
-    // Также вызываем при каждом добавлении нового сообщения
-    const originalAddMessage = window.addMessage;
-    if (originalAddMessage) {
-      window.addMessage = function(msg, key) {
-        const result = originalAddMessage(msg, key);
-        setTimeout(updateDeleteButtons, 100);
-        return result;
-      };
-    }
+    // Инициализация
+    updateButtons();
+    setupOnlineTracker();
   </script>
 
   <footer style="text-align:center; padding:10px; font-size:14px; color:#888;">
@@ -694,4 +814,3 @@ if (text.startsWith("/8ball") || text.startsWith("/ball")) {
   </footer>
 </body>
 </html>
-
