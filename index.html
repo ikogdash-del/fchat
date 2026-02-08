@@ -186,6 +186,18 @@
     #emojiPanel button:hover {
       transform: scale(1.2);
     }
+
+    /* Цвет кнопок с эмодзи в разных темах */
+body.theme-light #emojiPanel button,
+body.theme-lumia #emojiPanel button {
+  color: #000000;
+}
+
+body.theme-dark #emojiPanel button,
+body.theme-Keket #emojiPanel button,
+body.theme-cosmos #emojiPanel button {
+  color: #ffffff;
+}
   </style>
 </head>
 <body class="theme-light">
@@ -682,3 +694,4 @@ if (text.startsWith("/8ball") || text.startsWith("/ball")) {
   </footer>
 </body>
 </html>
+
