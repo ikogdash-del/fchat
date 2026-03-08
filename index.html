@@ -3,9 +3,6 @@
 <head>
   <meta charset="utf-8">
   <title>Fchat</title>
-<body>
-  <div id="chat-header" class="chat-header">
-  </div>
   <style>
     body { font-family: sans-serif; margin: 20px; }
 
@@ -42,10 +39,10 @@
       --panel-border: #DDDDDD;
       --chat-bg: #FFFFFF;
       --chat-border: #DDDDDD;
-      --bubble-incoming: #FFF9C4;
-      --bubble-outgoing: #FFF176; 
-      --bubble-text: #333333;
-      --nickname: #B8860B;
+      --bubble-incoming: #808080;
+      --bubble-outgoing: #808080; 
+      --bubble-text: #1b1f26;
+      --nickname: #000000;
     }
 
     body.theme-Keket {
@@ -55,10 +52,10 @@
       --panel-border: #8A2BE2;
       --chat-bg: #000000;
       --chat-border: #8A2BE2;
-      --bubble-incoming: #7FFFD4;
-      --bubble-outgoing: #4B0082;
+      --bubble-incoming: #808080;
+      --bubble-outgoing: #808080;
       --bubble-text: #FFFFFF;
-      --nickname: #7FFFD4; 
+      --nickname: #000000; 
     }
 
     body.theme-cosmos {
@@ -68,10 +65,10 @@
       --panel-border: #45a29e;
       --chat-bg: #1f2833;
       --chat-border: #45a29e;
-      --bubble-incoming: #0d3b66;
-      --bubble-outgoing: #45a29e;
+      --bubble-incoming: #808080;
+      --bubble-outgoing: #808080;
       --bubble-text: #ffffff;
-      --nickname: #66fcf1;
+      --nickname: #000000;
     }
 
     body { background: var(--bg); color: var(--text); transition: background 200ms ease, color 200ms ease; }
@@ -82,10 +79,9 @@
       padding:10px;
       height:300px;
       overflow:auto;
-     margin:0 500px 10px 0;
+      margin:0 500px 10px 0;
       background:var(--chat-bg);
       border-radius:8px;
-   
     }
 
     .msg { display:flex; align-items:flex-start; margin:8px 0; }
@@ -116,7 +112,7 @@
     .color-btn { width:140px; height:30px; color:#fff; border:none; border-radius:6px; cursor:pointer; }
     #avatarPreview { width:40px; height:40px; border:1px solid #aaa; border-radius:50%; object-fit:cover; margin-left:10px; vertical-align:middle; display:none; }
 
-#settingsBtn { position: fixed; right: 12px; top: 12px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: 8px; padding: 6px 8px; cursor: pointer; z-index: 1000; }
+    #settingsBtn { position: fixed; right: 12px; top: 12px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: 8px; padding: 6px 8px; cursor: pointer; z-index: 1000; }
     #settingsPanel { position: fixed; right: 12px; top: 52px; width: 240px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: 12px; padding: 10px 12px; box-shadow: 0 10px 24px rgba(0,0,0,0.25); display: none; z-index: 1001; }
     #settingsPanel .row { margin:6px 0; }
     #settingsPanel input[type="radio"] { accent-color: #3b82f6; }
@@ -153,7 +149,7 @@
       color: #ffffff;
     }
 
- /* Правая панель с онлайн пользователями - ЛЕВЕЕ настроек */
+    /* Правая панель с онлайн пользователями - ЛЕВЕЕ настроек */
     #right-sidebar {
       position: fixed;
       right: 80px; /* Оставляем место для кнопки настроек */
@@ -172,7 +168,6 @@
     .online-user {
       transition: all 0.2s ease;
     }
-
 
     .online-user:hover {
       transform: translateX(-3px);
@@ -196,7 +191,7 @@
       background: var(--text);
     }
 
-   .status-dot {
+    .status-dot {
       width: 10px;
       height: 10px;
       border-radius: 50%;
@@ -236,6 +231,7 @@
   </style>
 </head>
 <body class="theme-light">
+  <div id="chat-header" class="chat-header"></div>
   <h2>Fchat</h2>
 
   <button id="settingsBtn" aria-label="Открыть настройки" title="Настройки">⚙️</button>
@@ -250,7 +246,7 @@
 
   <!-- Правая панель с онлайн пользователями -->
   <div id="right-sidebar">
-    <h3 style="margin-top: 0; color: var(--text);">👥 Пользователи онлайн</h3>
+    <h3 style="margin-top: 0; color: var(--text);"> Пользователи в чате</h3>
     
     <div style="margin-bottom: 15px;">
       <p style="margin: 5px 0;">
@@ -258,7 +254,7 @@
         <span id="onlineCount" style="color: #4CAF50; font-weight: bold;">0</span>
       </p>
       <p style="margin: 5px 0; font-size: 13px; color: #888;">
-        (обновляется каждые 10 сек)
+        (обновляется каждые 5-10 сек)
       </p>
     </div>
     
@@ -294,44 +290,43 @@
     <button>=3</button>
     <button>=0</button>
     <button>(≧▽≦)</button>
-     <button>(⊙_☉)</button>
-<button>(；＿；)</button>
-<button>¯\_(ツ)_/¯</button>
-<button>(╯°□°）╯︵ ┻━┻</button>
-<button>-_-</button>
-<button>о_О</button>
-<button>(͡° ͜ʖ ͡°)</button>
+    <button>(⊙_☉)</button>
+    <button>(；＿；)</button>
+    <button>¯\_(ツ)_/¯</button>
+    <button>(╯°□°）╯︵ ┻━┻</button>
+    <button>-_-</button>
+    <button>о_О</button>
+    <button>(͡° ͜ʖ ͡°)</button>
   </div>
+
   <details>
     <summary>О Fchat</summary>
     <strong>Fchat — чат с характером.</strong>  
-    Это сайт для общения, где каждый пользователь получает уникальный ID, может настраивать цвет ника, цвет облачка сообщений, аватар и стиль.  
-    Поддерживаются темы оформления, эмодзи‑панель, отправка изображений и мини‑игры (например, 🎲 кубик).
+    <br>Это сайт для общения, где каждый пользователь получает уникальный ID,<br> может настраивать цвет ника, цвет облачка сообщений, аватар и стиль.  
+    <br>Поддерживаются темы оформления, эмодзи‑панель, отправка изображений и мини‑игры (например, 🎲 кубик).<br>
   </details>
 
   <details>
     <summary>Как пользоваться</summary>
     <ul>
-      <li>После захода на сайт вам автоматически выдаётся случайный ID. Он отображается в заголовке страницы и рядом с вашими сообщениями — это ваш «паспорт» в чате.</li>
-      <li>
-  В самой правой части сайта есть счётчик пользователей в чате. 
-  Рядом с каждым пользователем отображаются индикаторы‑кружочки, которые показывают статус активности:
-  <ul>
-    <li><span style="color:#4caf50;">●</span> Зелёный — пользователь активен прямо сейчас.</li>
-    <li><span style="color:#ff9800;">●</span> Оранжевый — недавно был активен, имеет плохое соединение или находится в режиме AFK.</li>
-    <li><span style="color:#f44336;">●</span> Красный — не проявлял активности более 12–60 секунд.</li>
-  </ul>
-Счётчик обновляется каждые 5-10 секунд.
-</li>
-
-     <li> Далее введите своё имя или псевдоним в поле «Ник». Если поле оставить пустым — будет использоваться никнейм «Anon».</li>
+      <li>После захода на сайт вам автоматически выдаётся случайный ID. <br>Он отображается в заголовке страницы и рядом с вашими сообщениями — это ваш «паспорт» в чате.<br></li>
+      <li>В самой правой части сайта есть счётчик пользователей в чате. 
+        <br>Рядом с каждым пользователем отображаются индикаторы‑кружочки, которые показывают статус активности:<br>
+        <ul>
+          <li><span style="color:#4caf50;">●</span> Зелёный — пользователь активен прямо сейчас.</li>
+          <li><span style="color:#ff9800;">●</span> Оранжевый — недавно был активен, имеет плохое соединение или находится в режиме AFK.</li>
+          <li><span style="color:#f44336;">●</span> Красный — не проявлял активности более 12–60 секунд.</li>
+        </ul>
+        Счётчик обновляется каждые 5-10 секунд.
+      </li>
+      <li>Далее введите своё имя или псевдоним в поле «Ник». Если поле оставить пустым — будет использоваться никнейм «Anon».</li>
       <li>Настройте цвет ника и облачка (фон сообщения) через специальные кнопки.</li>
       <li>Добавьте аватарку через кнопку «Выбрать аватарку».</li>
-      <li>В правом верхнем углу есть кнопка «шестерёнка». Там можно выбрать тему оформления (светлая, тёмная, Lumia, Keket, Тёмная бирюза).</li>
+      <li>В правом верхнем углу есть кнопка «шестерёнка». <br>Там можно выбрать тему оформления (светлая, тёмная, Lumia, Keket, Тёмная бирюза).<br></li>
       <li>Напишите текст в поле ввода и отправьте его кнопкой «Отправить» или клавишей Enter.</li>
       <li>Прикрепите изображение с помощью кнопки «Выбор файла».</li>
-      <li>Используйте панель «=)» для вставки текстовых эмодзи и каомодзи .</li>
-      <li>В чате доступны команды, например: <code>/dice</code> — бросок кубика 🎲, <code>/msgs</code> — колличество сообщений за всё время 📊, <code>/8ball</code> — шуточный шар предсказаний и ответов на вопросы 🔮. </li>
+      <li>Используйте панель «=)» для вставки текстовых эмодзи и каомодзи.</li>
+      <li>В чате доступны команды, например: <br><code>/dice</code> — бросок кубика 🎲, <code>/msgs</code> — количество сообщений за всё время 📊, <br><code>/8ball</code> — шуточный шар предсказаний и ответов на вопросы 🔮.<br></li>
     </ul>
   </details>
 
@@ -346,27 +341,28 @@
     </ul>
   </details>
 
-<details> <summary>Список обновлений и новостей</summary> 
-<ul> <li><strong>02.02.2026</strong> — Начало ведения журнала обновлений</li> 
-<li><strong>02.02.2026</strong> — Теперь можно удалять только свои сообщения. Единственный, кто может удалять все сообщения — админ ( ID 51599 ). </li> 
-<li><strong>07.02.2026</strong> —  Добавлены новые команды: <code>/msgs</code> и <code>/8ball</code> </li> 
-<li><strong>07.02.2026</strong> —  В панели эмодзи стандартные смайлы заменены на текстовые каомодзи и другие эмодзи.</li>
-<li><strong>07.02.2026</strong> —  Добавлены новые каомодзи и эмодзи в панель текстовых эмодзи: =)  =(  =3  =0  (≧▽≦)  (⊙_☉)  (；＿；)  ¯\_(ツ)_/¯  (╯°□°）╯︵ ┻━┻  -_-  о_О  (͡° ͜ʖ ͡°). </li> 
-<li><strong>08.02.2026</strong> — Добавлен счётчик пользователей в чате, который обновляется каждые 5-10 секунд.  </li> 
-<li><strong>08.02.2026</strong> — Добавлены индикаторы активности:  зелёный — активен прямо сейчас,
-    оранжевый —  был недавно , афк, плохое соединение,
-    красный — неактивен более 12–60 секунд. </li> 
-<li><strong>08.02.2026</strong> — Улучшена тема оформления «Кекет».</li> 
- </ul> 
-</details>
-
+  <details>
+    <summary>Список обновлений и новостей</summary> 
+    <ul>
+      <li><strong>02.02.2026</strong> — Начало ведения журнала обновлений</li> 
+      <li><strong>02.02.2026</strong> — Теперь можно удалять только свои сообщения. Единственный, кто может удалять все сообщения — админ (ID 51599).</li> 
+      <li><strong>07.02.2026</strong> — Добавлены новые команды: <code>/msgs</code> и <code>/8ball</code></li> 
+      <li><strong>07.02.2026</strong> — В панели эмодзи стандартные смайлы заменены на текстовые каомодзи и другие эмодзи.</li>
+      <li><strong>07.02.2026</strong> — Добавлены новые каомодзи и эмодзи в панель текстовых эмодзи: <br>=)  =(  =3  =0  (≧▽≦)  (⊙_☉)  (；＿；)  ¯\_(ツ)_/¯  (╯°□°）╯︵ ┻━┻  -_-  о_О  (͡° ͜ʖ ͡°).</li> 
+      <li><strong>08.02.2026</strong> — Добавлен счётчик пользователей в чате, который обновляется каждые 5-10 секунд.</li> 
+      <li><strong>08.02.2026</strong> — Добавлены индикаторы активности: <br>зелёный — активен прямо сейчас, оранжевый — был недавно, афк, плохое соединение, красный — неактивен более 12–60 секунд.</li> 
+      <li><strong>08.02.2026</strong> — Улучшена тема оформления «Кекет».</li> 
+      <li><strong>08.03.2026</strong> — Улучшены темы, немного изменён дизайн.</li> 
+      <li><strong>08.03.2026</strong> — Изменена команда <code>/8ball</code> .</li> 
+    </ul> 
+  </details>
 
   <details>
     <summary>Контакты и обратная связь</summary>
     <ul>
       <li>ID администратора: <strong>51599</strong>, ник — <strong>Ikogdash</strong>.</li>
       <li>Вы можете связаться с администратором через Outlook Live: <em>ikogdash@hotmail.com</em>.</li>
-      <li>Мы ценим ваши идеи и поддержку: делитесь отзывами, предлагайте новые функции, сообщайте об ошибках и о нарушителях правил.</li>
+      <li>Мы ценим ваш отклик и поддержку: делитесь отзывами, предлагайте новые функции, сообщайте об ошибках и о нарушителях правил.</li>
     </ul>
   </details>
 
@@ -460,10 +456,10 @@
       }
       if (text.startsWith("/8ball") || text.startsWith("/ball")) {
         const answers = [
-          "Да, определенно", "Бесспорно", "Мне кажется — да", "Вероятнее всего",
+          "Да, определенно", "Бесспорно", "Мне кажется да", "Вероятнее всего",
           "Спроси позже", "Не могу сейчас сказать", "Сконцентрируйся и спроси опять",
-          "Даже не думай", "Мой ответ — нет", "Перспективы не очень хорошие",
-          "Весьма сомнительно", "Знаки говорят — да"
+          "Даже не думай", "Мой ответ нет", "Перспективы не очень хорошие",
+          "Весьма сомнительно", "Знаки говорят да"
         ];
         return `🔮 ${answers[Math.floor(Math.random() * answers.length)]}`;
       }
