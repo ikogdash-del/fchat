@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <title>Fchat</title>
-  <meta name="description" content="Fchat — чат с характером.">
-  <meta name="keywords" content="чат, онлайн-чат, Fchat, общение, Ikogdash">
+  <meta name="description" content="Fchat — чат с характером. Здесь ты получаешь уникальный ID, можешь выбрать тему оформления, настроить цвет ника и аватарку. Общайся, находи новых знакомых и друзей, отправляй личные сообщения, настраивай свой уникальный стиль в чате. Твой уютный уголок в интернете!">
+  <meta name="keywords" content="чат, онлайн-чат, Fchat, общение, Ikogdash, форум, эфчат, фчат, Икогдаш, fchat">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body { font-family: sans-serif; margin: 20px; }
@@ -43,7 +43,7 @@
       --chat-bg: #FFFFFF;
       --chat-border: #DDDDDD;
       --bubble-incoming: #808080;
-      --bubble-outgoing: #808080; 
+      --bubble-outgoing: #808080;
       --bubble-text: #1b1f26;
       --nickname: #000000;
     }
@@ -58,7 +58,7 @@
       --bubble-incoming: #808080;
       --bubble-outgoing: #808080;
       --bubble-text: #FFFFFF;
-      --nickname: #000000; 
+      --nickname: #000000;
     }
 
     body.theme-cosmos {
@@ -76,88 +76,63 @@
 
     body { background: var(--bg); color: var(--text); transition: background 200ms ease, color 200ms ease; }
 
-    /* Чат с отступом для правой панели */
     #chat {
-      border:1px solid var(--chat-border);
-      padding:10px;
-      height:300px;
-      overflow:auto;
-      margin:0 500px 10px 0;
-      background:var(--chat-bg);
-      border-radius:8px;
+      border: 1px solid var(--chat-border);
+      padding: 10px;
+      height: 300px;
+      overflow: auto;
+      margin: 0 500px 10px 0;
+      background: var(--chat-bg);
+      border-radius: 8px;
     }
 
-    .msg { display:flex; align-items:flex-start; margin:8px 0; }
-    .avatar { width:40px; height:40px; border-radius:50%; margin-right:8px; object-fit:cover; border:1px solid #aaa; }
+    .msg { display: flex; align-items: flex-start; margin: 8px 0; }
+    .avatar { width: 40px; height: 40px; border-radius: 50%; margin-right: 8px; object-fit: cover; border: 1px solid #aaa; }
 
-    .bubble { position:relative; padding:8px 12px; border-radius:12px; max-width:70%; word-wrap:break-word; }
+    .bubble { position: relative; padding: 8px 12px; border-radius: 12px; max-width: 70%; word-wrap: break-word; }
     .bubble.incoming { background: var(--bubble-incoming); color: var(--bubble-text); }
     .bubble.outgoing { background: var(--bubble-outgoing); color: var(--bubble-text); }
 
-    .nick { font-weight:bold; margin-right:6px; color: var(--nickname); }
-    .time { display:block; font-size:11px; color:#555; text-align:right; margin-top:4px; }
-    .user-id {
+    .nick { font-weight: bold; margin-right: 6px; color: var(--nickname); }
+    .time { display: block; font-size: 11px; color: #555; text-align: right; margin-top: 4px; }
+   .user-id {
       color: #808080;
       font-size: 0.85em;
       margin-left: 6px;
       text-shadow: 1px 1px 2px #000000;
     }
 
-    .deleteBtn { position:absolute; top:-10px; right:-10px; background:#e63946; border:none; border-radius:50%; width:22px; height:22px; color:#fff; cursor:pointer; font-size:14px; line-height:22px; text-align:center; display:none; }
-    .bubble:hover .deleteBtn { display:block; }
+    .deleteBtn { position: absolute; top: -10px; right: -10px; background: #e63946; border: none; border-radius: 50%; width: 22px; height: 22px; color: #fff; cursor: pointer; font-size: 14px; line-height: 22px; text-align: center; display: none; }
+    .bubble:hover .deleteBtn { display: block; }
 
-    .chatImage { max-width:200px; border-radius:8px; margin-top:5px; }
+    .chatImage { max-width: 200px; border-radius: 8px; margin-top: 5px; }
 
-    input, button { padding:6px; border:1px solid #ccc; border-radius:6px; margin:2px; cursor:pointer; }
-    #sendBtn { background:#666; color:#fff; }
-    #sendBtn:hover { background:#444; }
+    input, button { padding: 6px; border: 1px solid #ccc; border-radius: 6px; margin: 2px; cursor: pointer; }
+    #sendBtn { background: #666; color: #fff; }
+    #sendBtn:hover { background: #444; }
 
-    .color-btn { width:140px; height:30px; color:#fff; border:none; border-radius:6px; cursor:pointer; }
-    #avatarPreview { width:40px; height:40px; border:1px solid #aaa; border-radius:50%; object-fit:cover; margin-left:10px; vertical-align:middle; display:none; }
+    .color-btn { width: 140px; height: 30px; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
+    #avatarPreview { width: 40px; height: 40px; border: 1px solid #aaa; border-radius: 50%; object-fit: cover; margin-left: 10px; vertical-align: middle; display: none; }
 
     #settingsBtn { position: fixed; right: 12px; top: 12px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: 8px; padding: 6px 8px; cursor: pointer; z-index: 1000; }
     #settingsPanel { position: fixed; right: 12px; top: 52px; width: 240px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: 12px; padding: 10px 12px; box-shadow: 0 10px 24px rgba(0,0,0,0.25); display: none; z-index: 1001; }
-    #settingsPanel .row { margin:6px 0; }
-    #settingsPanel input[type="radio"] { accent-color: #3b82f6; }
+    #settingsPanel .row { margin: 6px 0; }
 
-    #emojiBtn {
-      font-size: 18px;
-      padding: 4px 8px;
-      margin-left: 4px;
-      cursor: pointer;
-    }
+    #emojiBtn { font-size: 18px; padding: 4px 8px; margin-left: 4px; cursor: pointer; }
+    #emojiPanel button { font-size: 20px; padding: 4px; margin: 2px; border: none; background: transparent; cursor: pointer; }
+    #emojiPanel button:hover { transform: scale(1.2); }
 
-    #emojiPanel button {
-      font-size: 20px;
-      padding: 4px;
-      margin: 2px;
-      border: none;
-      background: transparent;
-      cursor: pointer;
-    }
-
-    #emojiPanel button:hover {
-      transform: scale(1.2);
-    }
-
-    /* Цвет кнопок с эмодзи в разных темах */
     body.theme-light #emojiPanel button,
-    body.theme-lumia #emojiPanel button {
-      color: #000000;
-    }
-
+    body.theme-lumia #emojiPanel button { color: #000000; }
     body.theme-dark #emojiPanel button,
     body.theme-Keket #emojiPanel button,
-    body.theme-cosmos #emojiPanel button {
-      color: #ffffff;
-    }
+    body.theme-cosmos #emojiPanel button { color: #ffffff; }
 
-    /* Правая панель с онлайн пользователями - ЛЕВЕЕ настроек */
     #right-sidebar {
       position: fixed;
-      right: 80px; /* Оставляем место для кнопки настроек */
+      right: 80px;
       top: 110px;
-      width: 280px; /* Чуть уже */
+      width: 280px;
       background: var(--panel);
       border: 1px solid var(--panel-border);
       border-radius: 12px;
@@ -165,77 +140,43 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       max-height: calc(100vh - 40px);
       overflow-y: auto;
-      z-index: 1000; /* Ниже настроек */
+      z-index: 1000;
     }
 
-    .online-user {
-      transition: all 0.2s ease;
-    }
+    .online-user { transition: all 0.2s ease; }
+    .online-user:hover { transform: translateX(-3px); background: var(--bg) !important; }
 
-    .online-user:hover {
-      transform: translateX(-3px);
-      background: var(--bg) !important;
-    }
+    #right-sidebar::-webkit-scrollbar { width: 6px; }
+    #right-sidebar::-webkit-scrollbar-track { background: transparent; }
+    #right-sidebar::-webkit-scrollbar-thumb { background: var(--panel-border); border-radius: 3px; }
+    #right-sidebar::-webkit-scrollbar-thumb:hover { background: var(--text); }
 
-    #right-sidebar::-webkit-scrollbar {
-      width: 6px;
-    }
+    .status-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .status-green { background: #4CAF50; }
+    .status-orange { background: #FF9800; }
+    .status-red { background: #F44336; }
 
-    #right-sidebar::-webkit-scrollbar-track {
-      background: transparent;
+    .private-notification {
+      background: var(--panel);
+      border-left: 4px solid #4CAF50;
+      padding: 10px 12px;
+      margin: 8px 0;
+      border-radius: 8px;
+      cursor: pointer;
     }
+    .private-notification:hover { transform: translateX(5px); }
 
-    #right-sidebar::-webkit-scrollbar-thumb {
-      background: var(--panel-border);
-      border-radius: 3px;
-    }
-
-    #right-sidebar::-webkit-scrollbar-thumb:hover {
-      background: var(--text);
-    }
-
-    .status-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      box-shadow: 0 0 5px currentColor;
-    }
-
-    .status-green { background: #4CAF50; color: #4CAF50; }
-    .status-orange { background: #FF9800; color: #FF9800; }
-    .status-red { background: #F44336; color: #F44336; }
- 
-    /* Для узких экранов */
     @media (max-width: 900px) {
-      #chat {
-        width: 100%;
-        margin-right: 0;
-      }
-      
-      #right-sidebar {
-        position: relative;
-        right: auto;
-        top: auto;
-        width: 100%;
-        margin-top: 20px;
-        max-height: 200px;
-      }
-      
-      #settingsBtn {
-        right: 10px;
-        top: 10px;
-      }
-      
-      #settingsPanel {
-        right: 10px;
-        top: 50px;
-      }
+      #chat { width: 100%; margin-right: 0; }
+      #right-sidebar { position: relative; right: auto; top: auto; width: 100%; margin-top: 20px; max-height: 200px; }
+      #settingsBtn { right: 10px; top: 10px; }
+      #settingsPanel { right: 10px; top: 50px; }
     }
   </style>
 </head>
 <body class="theme-light">
   <div id="chat-header" class="chat-header"></div>
-  <h2>Fchat</h2>
+  <h2>Fchat <span id="unreadBadge" style="display: none;"></span></h2>
 
   <button id="settingsBtn" aria-label="Открыть настройки" title="Настройки">⚙️</button>
   <div id="settingsPanel" role="dialog" aria-modal="true" aria-label="Настройки">
@@ -247,24 +188,14 @@
     <div class="row"><label><input type="radio" name="theme" value="cosmos"> Тёмная бирюза</label></div>
   </div>
 
-  <!-- Правая панель с онлайн пользователями -->
   <div id="right-sidebar">
     <h3 style="margin-top: 0; color: var(--text);"> Пользователи в чате</h3>
-    
     <div style="margin-bottom: 15px;">
-      <p style="margin: 5px 0;">
-        <strong>Сейчас в сети:</strong> 
-        <span id="onlineCount" style="color: #4CAF50; font-weight: bold;">0</span>
-      </p>
-      <p style="margin: 5px 0; font-size: 13px; color: #888;">
-        (обновляется каждые 5-10 сек)
-      </p>
+      <p style="margin: 5px 0;"><strong>Сейчас в сети:</strong> <span id="onlineCount" style="color: #4CAF50; font-weight: bold;">0</span></p>
+      <p style="margin: 5px 0; font-size: 13px; color: #888;">(обновляется каждые 5-10 сек)</p>
     </div>
-    
     <div id="onlineUsersList" style="margin-top: 15px;">
-      <p id="noUsersOnline" style="color: #999; font-style: italic; text-align: center;">
-        Загрузка списка...
-      </p>
+      <p id="noUsersOnline" style="color: #999; font-style: italic; text-align: center;">Загрузка списка...</p>
     </div>
   </div>
 
@@ -281,93 +212,27 @@
     <img id="avatarPreview" src="" alt="Превью">
   </div>
   <div>
-    <input id="text" placeholder="Введите сообщение" style="width:300px;">
+    <input id="text" placeholder="Введите сообщение или /help" style="width:300px;">
     <button id="emojiBtn">=)</button>
     <input id="fileInput" type="file" accept="image/*">
     <button id="sendBtn">Отправить</button>
   </div>
 
   <div id="emojiPanel" style="display:none; margin-top:6px;">
-    <button>=)</button>
-    <button>=(</button>
-    <button>=3</button>
-    <button>=0</button>
-    <button>(≧▽≦)</button>
-    <button>(⊙_☉)</button>
-    <button>(；＿；)</button>
-    <button>¯\_(ツ)_/¯</button>
-    <button>(╯°□°）╯︵ ┻━┻</button>
-    <button>-_-</button>
-    <button>о_О</button>
-    <button>(͡° ͜ʖ ͡°)</button>
+    <button>=)</button><button>=(</button><button>=3</button><button>=0</button>
+    <button>(≧▽≦)</button><button>(⊙_☉)</button><button>(；＿；)</button>
+    <button>¯\_(ツ)_/¯</button><button>(╯°□°）╯︵ ┻━┻</button>
+    <button>-_-</button><button>о_О</button><button>(͡° ͜ʖ ͡°)</button>
   </div>
 
-  <details>
-    <summary>О Fchat</summary>
-    <strong>Fchat — чат с характером.</strong>  
-    <br>Это сайт для общения, где каждый пользователь получает уникальный ID,<br> может настраивать цвет ника, цвет облачка сообщений, аватар и стиль.  
-    <br>Поддерживаются темы оформления, эмодзи‑панель, отправка изображений и мини‑игры (например, 🎲 кубик).<br>
-  </details>
-
-  <details>
-    <summary>Как пользоваться</summary>
-    <ul>
-      <li>После захода на сайт вам автоматически выдаётся случайный ID. <br>Он отображается в заголовке страницы и рядом с вашими сообщениями — это ваш «паспорт» в чате.<br></li>
-      <li>В самой правой части сайта есть счётчик пользователей в чате. 
-        <br>Рядом с каждым пользователем отображаются индикаторы‑кружочки, которые показывают статус активности:<br>
-        <ul>
-          <li><span style="color:#4caf50;">●</span> Зелёный — пользователь активен прямо сейчас.</li>
-          <li><span style="color:#ff9800;">●</span> Оранжевый — недавно был активен, имеет плохое соединение или находится в режиме AFK.</li>
-          <li><span style="color:#f44336;">●</span> Красный — не проявлял активности более 12–60 секунд.</li>
-        </ul>
-        Счётчик обновляется каждые 5-10 секунд.
-      </li>
-      <li>Далее введите своё имя или псевдоним в поле «Ник». Если поле оставить пустым — будет использоваться никнейм «Anon».</li>
-      <li>Настройте цвет ника и облачка (фон сообщения) через специальные кнопки.</li>
-      <li>Добавьте аватарку через кнопку «Выбрать аватарку».</li>
-      <li>В правом верхнем углу есть кнопка «шестерёнка». <br>Там можно выбрать тему оформления (светлая, тёмная, Lumia, Keket, Тёмная бирюза).<br></li>
-      <li>Напишите текст в поле ввода и отправьте его кнопкой «Отправить» или клавишей Enter.</li>
-      <li>Прикрепите изображение с помощью кнопки «Выбор файла».</li>
-      <li>Используйте панель «=)» для вставки текстовых эмодзи и каомодзи.</li>
-      <li>В чате доступны команды, например: <br><code>/dice</code> — бросок кубика 🎲, <code>/msgs</code> — количество сообщений за всё время 📊, <br><code>/8ball</code> — шуточный шар предсказаний и ответов на вопросы 🔮.<br></li>
-    </ul>
-  </details>
-
-  <details>
-    <summary>Правила</summary>
-    <ul>
-      <li>Уважайте других участников чата.</li>
-      <li>Запрещено злоупотреблять ненормативной лексикой, использовать спам и флуд.</li>
-      <li>Запрещено распространять личные данные без согласия другого человека.</li>
-      <li>Мини игры и команды предназначены для развлечения, а не для спама.</li>
-      <li>Запрещено публиковать материалы (фото, сообщения) с темой 18+.</li>
-    </ul>
-  </details>
-
-  <details>
-    <summary>Список обновлений и новостей</summary> 
-    <ul>
-      <li><strong>02.02.2026</strong> — Начало ведения журнала обновлений</li> 
-      <li><strong>02.02.2026</strong> — Теперь можно удалять только свои сообщения. Единственный, кто может удалять все сообщения — админ (ID 51599).</li> 
-      <li><strong>07.02.2026</strong> — Добавлены новые команды: <code>/msgs</code> и <code>/8ball</code></li> 
-      <li><strong>07.02.2026</strong> — В панели эмодзи стандартные смайлы заменены на текстовые каомодзи и другие эмодзи.</li>
-      <li><strong>07.02.2026</strong> — Добавлены новые каомодзи и эмодзи в панель текстовых эмодзи: <br>=)  =(  =3  =0  (≧▽≦)  (⊙_☉)  (；＿；)  ¯\_(ツ)_/¯  (╯°□°）╯︵ ┻━┻  -_-  о_О  (͡° ͜ʖ ͡°).</li> 
-      <li><strong>08.02.2026</strong> — Добавлен счётчик пользователей в чате, который обновляется каждые 5-10 секунд.</li> 
-      <li><strong>08.02.2026</strong> — Добавлены индикаторы активности: <br>зелёный — активен прямо сейчас, оранжевый — был недавно, афк, плохое соединение, красный — неактивен более 12–60 секунд.</li> 
-      <li><strong>08.02.2026</strong> — Улучшена тема оформления «Кекет».</li> 
-      <li><strong>08.03.2026</strong> — Улучшены темы, немного изменён дизайн.</li> 
-      <li><strong>08.03.2026</strong> — Изменена команда <code>/8ball</code> .</li> 
-    </ul> 
-  </details>
-
-  <details>
-    <summary>Контакты и обратная связь</summary>
-    <ul>
-      <li>ID администратора: <strong>51599</strong>, ник — <strong>Ikogdash</strong>.</li>
-      <li>Вы можете связаться с администратором через Outlook Live: <em>ikogdash@hotmail.com</em>.</li>
-      <li>Мы ценим ваш отклик и поддержку: делитесь отзывами, предлагайте новые функции, сообщайте об ошибках и о нарушителях правил.</li>
-    </ul>
-  </details>
+  <details><summary>О Fchat</summary><strong>Fchat — чат с характером.</strong><br>Это сайт для общения, где каждый пользователь получает уникальный ID,<br>может настраивать цвет ника, цвет облачка сообщений, аватар и стиль.<br>Поддерживаются темы оформления, эмодзи‑панель, отправка изображений и мини‑игры (например, 🎲 кубик).<br></details>
+  <details><summary>Как пользоваться</summary><ul><li>После захода на сайт вам автоматически выдаётся случайный ID.<br>Он отображается в заголовке страницы и рядом с вашими сообщениями — это ваш «паспорт» в чате.<br></li><li>В самой правой части сайта есть счётчик пользователей в чате.<br>Рядом с каждым пользователем отображаются индикаторы‑кружочки, которые показывают статус активности:<br><ul><li><span style="color:#4caf50;">●</span> Зелёный — пользователь активен прямо сейчас.</li><li><span style="color:#ff9800;">●</span> Оранжевый — недавно был активен, имеет плохое соединение или находится в режиме AFK.</li><li><span style="color:#f44336;">●</span> Красный — не проявлял активности более 12–60 секунд.</li></ul>Счётчик обновляется каждые 5-10 секунд.</li><li>Далее введите своё имя или псевдоним в поле «Ник». Если поле оставить пустым — будет использоваться никнейм «Anon».</li><li>Настройте цвет ника и облачка (фон сообщения) через специальные кнопки.</li><li>Добавьте аватарку через кнопку «Выбрать аватарку».</li><li>В правом верхнем углу есть кнопка «шестерёнка».<br>Там можно выбрать тему оформления (светлая, тёмная, Lumia, Keket, Тёмная бирюза).<br></li><li>Напишите текст в поле ввода и отправьте его кнопкой «Отправить» или клавишей Enter.</li><li>Прикрепите изображение с помощью кнопки «Выбор файла».</li><li>Используйте панель «=)» для вставки текстовых эмодзи и каомодзи.</li><li>В чате доступны команды, например:<br><code>/dice</code> — бросок кубика 🎲, <code>/msgs</code> — количество сообщений за всё время 📊,<br><code>/8ball</code> — шуточный шар предсказаний и ответов на вопросы 🔮.<br> <strong>Команды для личных сообщений:</strong> <br><code>/msg ID(получателя) текст сообщения</code> — отправка личных сообщений 💌.<br><code>/reply</code> — ответ последнему пользователю, который написал личное сообщение ↩️.  <br><code>/inbox</code> — все личные сообщения от других пользователей 📬. <br> </li></ul></details>
+  <details><summary>Правила</summary><ul><li>Уважайте других участников чата.</li><li>Запрещено злоупотреблять ненормативной лексикой, использовать спам и флуд.</li><li>Запрещено распространять личные данные без согласия другого человека.</li><li>Мини игры и команды предназначены для развлечения, а не для спама.</li><li>Запрещено публиковать материалы (фото, сообщения) с темой 18+.</li></ul></details>
+  <details><summary>Список обновлений и новостей</summary><ul><li><strong>02.02.2026</strong> — Начало ведения журнала обновлений</li><li><strong>02.02.2026</strong> — Теперь можно удалять только свои сообщения.<br>Единственный, кто может удалять все сообщения — админ (ID 51599).</li><li><strong>07.02.2026</strong> — Добавлены новые команды: <code>/msgs</code> и <code>/8ball</code></li><li><strong>07.02.2026</strong> — В панели эмодзи стандартные смайлы заменены на текстовые каомодзи и другие эмодзи.</li><li><strong>07.02.2026</strong> — Добавлены новые каомодзи и эмодзи в панель текстовых эмодзи:<br>=) =( =3 =0 (≧▽≦) (⊙_☉) (；＿；) ¯\_(ツ)_/¯ (╯°□°）╯︵ ┻━┻ -_- о_О (͡° ͜ʖ ͡°).</li><li><strong>08.02.2026</strong> — Добавлен счётчик пользователей в чате, который обновляется каждые 5-10 секунд.</li><li><strong>08.02.2026</strong> — Добавлены индикаторы активности:<br>зелёный — активен прямо сейчас,<br>оранжевый — был недавно, афк, плохое соединение,<br>красный — неактивен более 12–60 секунд.</li><li><strong>08.02.2026</strong> — Улучшена тема оформления «Кекет».</li><li><strong>08.03.2026</strong> — Улучшены темы, немного изменён дизайн.</li><li><strong>08.03.2026</strong> — Изменена команда <code>/8ball</code>.</li><li><strong>24.03.2026</strong> — Добавлены личные сообщения и команды для них: <code>/msg</code>, <code>/reply</code>, <code>/inbox</code>.</li>
+<li><strong>24.03.2026</strong> — Исправлено отображение команд</li>
+<li><strong>24.03.2026</strong> — Добавлена команда <code>/help</code>.</li>
+</ul></details>
+  <details><summary>Контакты и обратная связь</summary><ul><li>ID администратора: <strong>51599</strong>, ник — <strong>Ikogdash</strong>.</li><li>Вы можете связаться с администратором через Outlook Live: <em>ikogdash@hotmail.com</em>.</li><li>Мы ценим ваш отклик и поддержку: делитесь отзывами, предлагайте новые функции, сообщайте об ошибках и о нарушителях правил.</li></ul></details>
 
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
@@ -387,37 +252,27 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
     const onlineUsersRef = db.ref("onlineUsers");
+    const privateMessagesRef = db.ref("privateMessages");
 
     let avatarData = "";
     let nickColor = "";
     let bubbleColor = "";
     let userID = localStorage.getItem('fchat_user_id');
+    let unreadCount = 0;
+    let lastPrivateFrom = localStorage.getItem('lastPrivateFrom') || null;
 
-    // Генерация ID если нет
     if (!userID) {
       userID = Math.floor(10000 + Math.random() * 90000);
       localStorage.setItem('fchat_user_id', userID);
     }
 
-    // Установка заголовка страницы с ID
     document.title = `Fchat — чат с характером | Ваш ID: ${userID}`;
-    
-    // Добавляем ID в заголовок страницы (как раньше)
     const header = document.getElementById("chat-header");
-    if (header) {
-      header.innerHTML = `<span style="color:gray; font-size:14px;">Ваш ID: ${userID}</span>`;
-    }
+    if (header) header.innerHTML = `<span style="color:gray; font-size:14px;">Ваш ID: ${userID}</span>`;
 
-    // Загрузка сохраненных настроек
-    if (localStorage.getItem('fchat_nick')) {
-      document.getElementById('nick').value = localStorage.getItem('fchat_nick');
-    }
-    if (localStorage.getItem('fchat_nickColor')) {
-      nickColor = localStorage.getItem('fchat_nickColor');
-    }
-    if (localStorage.getItem('fchat_bubbleColor')) {
-      bubbleColor = localStorage.getItem('fchat_bubbleColor');
-    }
+    if (localStorage.getItem('fchat_nick')) document.getElementById('nick').value = localStorage.getItem('fchat_nick');
+    if (localStorage.getItem('fchat_nickColor')) nickColor = localStorage.getItem('fchat_nickColor');
+    if (localStorage.getItem('fchat_bubbleColor')) bubbleColor = localStorage.getItem('fchat_bubbleColor');
     if (localStorage.getItem('fchat_avatar')) {
       avatarData = localStorage.getItem('fchat_avatar');
       const preview = document.getElementById('avatarPreview');
@@ -426,8 +281,7 @@
     }
 
     function saveSettings() {
-      const nick = document.getElementById('nick').value.trim();
-      localStorage.setItem('fchat_nick', nick);
+      localStorage.setItem('fchat_nick', document.getElementById('nick').value.trim());
       localStorage.setItem('fchat_nickColor', nickColor);
       localStorage.setItem('fchat_bubbleColor', bubbleColor);
     }
@@ -435,20 +289,112 @@
     function updateButtons() {
       const themeNick = getComputedStyle(document.body).getPropertyValue('--nickname').trim();
       document.getElementById('nickColorBtn').style.backgroundColor = nickColor || themeNick;
-
       const outgoingDefault = getComputedStyle(document.body).getPropertyValue('--bubble-outgoing').trim();
       document.getElementById('bubbleColorBtn').style.backgroundColor = bubbleColor || outgoingDefault;
-
-      if (avatarData) {
-        const preview = document.getElementById('avatarPreview');
-        preview.src = avatarData;
-        preview.style.display = "inline-block";
-      }
-      
+      if (avatarData) document.getElementById('avatarPreview').style.display = "inline-block";
       saveSettings();
     }
 
+    function updateUnreadBadge() {
+      const badge = document.getElementById('unreadBadge');
+      if (unreadCount > 0) {
+        badge.textContent = `| личных сообщений: ${unreadCount}`;
+        badge.style.display = 'inline-block';
+        document.title = `(${unreadCount}) Fchat — чат с характером | Ваш ID: ${userID}`;
+      } else {
+        badge.style.display = 'none';
+        document.title = `Fchat — чат с характером | Ваш ID: ${userID}`;
+      }
+    }
+
+    function showPrivateNotification(msg) {
+      const chat = document.getElementById('chat');
+      const notification = document.createElement('div');
+      notification.className = 'private-notification';
+      notification.innerHTML = `
+        <strong>💌 Личное сообщение</strong><br>
+        От: <strong>${msg.fromNick}</strong> (ID: ${msg.from})<br>
+        ${msg.text.substring(0, 80)}${msg.text.length > 80 ? '...' : ''}<br>
+        <small>${msg.time}</small>
+      `;
+      notification.onclick = () => {
+        alert(`От: ${msg.fromNick} (${msg.from})\n\n${msg.text}\n\nВремя: ${msg.time}`);
+        privateMessagesRef.child(msg.key).update({ read: true });
+        unreadCount--;
+        updateUnreadBadge();
+        notification.remove();
+      };
+      chat.appendChild(notification);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function addMessage(msg, key) {
+      const chat = document.getElementById('chat');
+      const wrapper = document.createElement('div');
+      wrapper.className = "msg";
+      if (key) wrapper.dataset.messageKey = key;
+
+      if (msg.avatar) {
+        const img = document.createElement('img');
+        img.className = "avatar";
+        img.src = msg.avatar;
+        wrapper.appendChild(img);
+      }
+
+      const bubbleEl = document.createElement('div');
+      const currentNick = document.getElementById('nick').value.trim() || "Anon";
+      const isOutgoing = msg.nick === currentNick;
+      bubbleEl.className = "bubble " + (isOutgoing ? "outgoing" : "incoming");
+
+      if (msg.bubbleColor) bubbleEl.style.backgroundColor = msg.bubbleColor;
+
+      const themeNick = getComputedStyle(document.body).getPropertyValue('--nickname').trim();
+      const textEl = document.createElement('div');
+      textEl.innerHTML = `
+        <span class="nick" style="color:${msg.color || themeNick}">${msg.nick}</span>
+        <span class="user-id">ID:${msg.id}</span>: ${msg.text || ''}
+      `;
+      bubbleEl.appendChild(textEl);
+
+      if (msg.image) {
+        const imgEl = document.createElement('img');
+        imgEl.className = "chatImage";
+        imgEl.src = msg.image;
+        bubbleEl.appendChild(imgEl);
+      }
+
+      const timeEl = document.createElement('div');
+      timeEl.className = "time";
+      timeEl.textContent = msg.time || '';
+      bubbleEl.appendChild(timeEl);
+
+      const canDelete = msg.id === userID || userID === "51599";
+      if (canDelete && key) {
+        const delBtn = document.createElement('button');
+        delBtn.className = "deleteBtn";
+        delBtn.textContent = "X";
+        delBtn.onclick = () => {
+          let confirmText = "Вы уверены, что хотите удалить это сообщение?";
+          if (msg.id !== userID) confirmText = `Вы удаляете сообщение ${msg.nick} (ID: ${msg.id}). Продолжить?`;
+          if (confirm(confirmText)) {
+            db.ref("messages/" + key).remove();
+            wrapper.remove();
+          }
+        };
+        bubbleEl.appendChild(delBtn);
+      }
+
+      wrapper.appendChild(bubbleEl);
+      chat.appendChild(wrapper);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
     function handleCommand(text) {
+      // Обычные команды
+
+if (text === "/help") {
+    return "🎮 Команды Fchat:\n/dice — бросить кубик 🎲\n/msgs — количество сообщений 📊\n/8ball — шар предсказаний 🔮\n/msg ID текст — личное сообщение 💌\n/reply текст — ответить последнему собеседнику ↩️\n/inbox — все личные сообщения 📬";
+  }
       if (text.startsWith("/dice")) {
         const roll = Math.floor(Math.random() * 6) + 1;
         return "🎲 Выпало: " + roll;
@@ -466,81 +412,63 @@
         ];
         return `🔮 ${answers[Math.floor(Math.random() * answers.length)]}`;
       }
-      return null;
-    }
-
-    function addMessage(msg, key) {
-      const chat = document.getElementById('chat');
-      const wrapper = document.createElement('div');
-      wrapper.className = "msg";
-      wrapper.dataset.messageKey = key;
-
-      if (msg.avatar) {
-        const img = document.createElement('img');
-        img.className = "avatar";
-        img.src = msg.avatar;
-        wrapper.appendChild(img);
-      }
-
-      const bubbleEl = document.createElement('div');
-      const currentNick = document.getElementById('nick').value.trim() || "Anon";
-      const isOutgoing = msg.nick === currentNick;
-      bubbleEl.className = "bubble " + (isOutgoing ? "outgoing" : "incoming");
-
-      if (msg.bubbleColor) {
-        bubbleEl.style.backgroundColor = msg.bubbleColor;
-      }
-
-      const themeNick = getComputedStyle(document.body).getPropertyValue('--nickname').trim();
-      const textEl = document.createElement('div');
-      textEl.innerHTML = `
-        <span class="nick" style="color:${msg.color || themeNick}">${msg.nick}</span>
-        <span class="user-id">ID:${msg.id}</span>: ${msg.text || ''}
-      `;
-
-      bubbleEl.appendChild(textEl);
-
-      if (msg.image) {
-        const imgEl = document.createElement('img');
-        imgEl.className = "chatImage";
-        imgEl.src = msg.image;
-        bubbleEl.appendChild(imgEl);
-      }
-
-      const timeEl = document.createElement('div');
-      timeEl.className = "time";
-      timeEl.textContent = msg.time || '';
-      bubbleEl.appendChild(timeEl);
-
-      const canDelete = msg.id === userID || userID === "51599";
       
-      if (canDelete) {
-        const delBtn = document.createElement('button');
-        delBtn.className = "deleteBtn";
-        delBtn.textContent = "X";
-        delBtn.title = "Удалить сообщение";
-        
-        delBtn.onclick = () => {
-          let confirmationText = "Вы уверены, что хотите удалить это сообщение?";
-          if (msg.id !== userID) {
-            confirmationText = `Вы удаляете сообщение пользователя ${msg.nick} (ID: ${msg.id}). Продолжить?`;
-          }
-          
-          if (confirm(confirmationText)) {
-            db.ref("messages/" + key).remove().catch(err => {
-              console.error("Ошибка удаления:", err);
-              alert("Удаление не удалось: " + err.code);
-            });
-            wrapper.remove();
-          }
-        };
-        
-        bubbleEl.appendChild(delBtn);
+      // Личные сообщения
+      if (text.startsWith("/msg ")) {
+        const parts = text.split(' ');
+        const targetId = parts[1];
+        const privateText = parts.slice(2).join(' ');
+        if (!targetId || targetId.length !== 5) return "❌ Использование: /msg 12345 текст";
+        if (!privateText) return "❌ Введите текст сообщения";
+        if (targetId === userID) return "❌ Нельзя отправить сообщение самому себе";
+        const now = new Date();
+        const timeStr = now.getHours().toString().padStart(2,'0') + ":" + now.getMinutes().toString().padStart(2,'0');
+        privateMessagesRef.push({
+          from: userID,
+          fromNick: document.getElementById('nick').value.trim() || "Anon",
+          to: targetId,
+          text: privateText,
+          time: timeStr,
+          timestamp: firebase.database.ServerValue.TIMESTAMP,
+          read: false
+        });
+        return `✉️ Личное сообщение отправлено ID:${targetId}`;
       }
-
-      wrapper.appendChild(bubbleEl);
-      chat.appendChild(wrapper);
-      chat.scrollTop = chat.scrollHeight;
+      
+      if (text === "/inbox") {
+        privateMessagesRef.orderByChild("to").equalTo(userID).once("value", (snapshot) => {
+          const msgs = snapshot.val();
+          if (!msgs) {
+            addMessage({ nick: "FchatBot", text: "📭 У вас нет личных сообщений", id: "BOT", time: new Date().toLocaleTimeString().slice(0,5) });
+            return;
+          }
+          let inboxText = "📬 Ваши личные сообщения:\n\n";
+          Object.entries(msgs).forEach(([key, msg]) => {
+            inboxText += `${msg.read ? '✅' : '🔴'} От: ${msg.fromNick} (${msg.from}) — ${msg.text}\n   Время: ${msg.time}\n\n`;
+          });
+          addMessage({ nick: "FchatBot", text: inboxText, id: "BOT", time: new Date().toLocaleTimeString().slice(0,5) });
+        });
+        return "📬 Проверяю ваши сообщения...";
+      }
+      
+      if (text.startsWith("/reply ")) {
+        if (!lastPrivateFrom) return "❌ Нет недавнего диалога для ответа";
+        const replyText = text.substring(7);
+        const now = new Date();
+        const timeStr = now.getHours().toString().padStart(2,'0') + ":" + now.getMinutes().toString().padStart(2,'0');
+        privateMessagesRef.push({
+          from: userID,
+          fromNick: document.getElementById('nick').value.trim() || "Anon",
+          to: lastPrivateFrom,
+          text: replyText,
+          time: timeStr,
+          timestamp: firebase.database.ServerValue.TIMESTAMP,
+          read: false
+        });
+        return `✉️ Ответ отправлен ID:${lastPrivateFrom}`;
+      }
+      
+      return null;
     }
 
     function send() {
@@ -548,7 +476,6 @@
       const text = document.getElementById('text').value.trim();
       const fileInput = document.getElementById('fileInput');
       const file = fileInput.files[0];
-
       if (!text && !file) return;
 
       const now = new Date();
@@ -563,20 +490,20 @@
         bubbleColor: bubbleColor || "",
         time: timeStr
       };
+
+      const commandResult = handleCommand(text);
       
-      const commandResult = handleCommand(msg.text);
       if (commandResult) {
-        addMessage({ nick: "FchatBot", text: commandResult, id: "BOT" });
+        // Показываем команду пользователя
+        addMessage(msg);
+        // Показываем ответ бота
+        addMessage({ nick: "FchatBot", text: commandResult, id: "BOT", time: timeStr });
+        document.getElementById('text').value = '';
+        fileInput.value = '';
+        return;
       }
 
-      const writeMsg = (m) => {
-        const ref = db.ref("messages").push();
-        ref.set(m).catch(err => {
-          console.error("Ошибка записи:", err);
-          alert("Запись не удалась: " + err.code);
-        });
-      };
-
+      const writeMsg = (m) => db.ref("messages").push().set(m);
       if (file) {
         const reader = new FileReader();
         reader.onload = ev => { msg.image = ev.target.result; writeMsg(msg); };
@@ -584,171 +511,88 @@
       } else {
         writeMsg(msg);
       }
-
       document.getElementById('text').value = '';
       fileInput.value = '';
     }
 
-    // ========== СИСТЕМА ОНЛАЙН ПОЛЬЗОВАТЕЛЕЙ ==========
+    function setupPrivateMessages() {
+      privateMessagesRef.orderByChild("to").equalTo(userID).on("child_added", (snapshot) => {
+        const msg = snapshot.val();
+        msg.key = snapshot.key;
+        if (!msg.read) {
+          unreadCount++;
+          updateUnreadBadge();
+          showPrivateNotification(msg);
+        }
+        lastPrivateFrom = msg.from;
+        localStorage.setItem('lastPrivateFrom', lastPrivateFrom);
+      });
+    }
 
     function updateOnlineStatus() {
       const userRef = onlineUsersRef.child(userID);
       const nick = document.getElementById('nick').value.trim() || "Anon";
-      
-      userRef.set({
-        id: userID,
-        nick: nick,
-        lastSeen: firebase.database.ServerValue.TIMESTAMP,
-        avatar: avatarData || "",
-        color: nickColor || ""
-      });
+      userRef.set({ id: userID, nick, lastSeen: firebase.database.ServerValue.TIMESTAMP, avatar: avatarData || "", color: nickColor || "" });
     }
 
     function setupOnlineTracker() {
       updateOnlineStatus();
-      
       setInterval(updateOnlineStatus, 5000);
-      
       onlineUsersRef.on('value', (snapshot) => {
         const users = snapshot.val();
         const onlineList = document.getElementById('onlineUsersList');
         const onlineCount = document.getElementById('onlineCount');
-        
         if (!users) {
-          onlineList.innerHTML = '<p id="noUsersOnline" style="color: #999; font-style: italic; text-align: center;">Нет пользователей онлайн</p>';
+          onlineList.innerHTML = '<p style="color:#999;">Нет пользователей онлайн</p>';
           onlineCount.textContent = '0';
           return;
         }
-        
         const now = Date.now();
-        const activeUsers = Object.values(users).filter(user => {
-          return now - user.lastSeen < 15000;
-        });
-        
+        const activeUsers = Object.values(users).filter(u => now - u.lastSeen < 15000);
         onlineCount.textContent = activeUsers.length;
-        
         if (activeUsers.length === 0) {
-          onlineList.innerHTML = '<p id="noUsersOnline" style="color: #999; font-style: italic; text-align: center;">Нет пользователей онлайн</p>';
+          onlineList.innerHTML = '<p style="color:#999;">Нет пользователей онлайн</p>';
           return;
         }
-        
         activeUsers.sort((a, b) => b.lastSeen - a.lastSeen);
-        
         let usersHTML = '';
         activeUsers.forEach(user => {
           const isCurrentUser = user.id === userID;
           const lastSeenSec = Math.floor((now - user.lastSeen) / 1000);
           let statusClass = 'status-red';
           let statusTitle = 'Был ' + lastSeenSec + ' сек назад';
-          
-          if (lastSeenSec < 5) {
-            statusClass = 'status-green';
-            statusTitle = 'Активен сейчас';
-          } else if (lastSeenSec < 10) {
-            statusClass = 'status-orange';
-            statusTitle = 'Был недавно';
-          }
-          
+          if (lastSeenSec < 5) { statusClass = 'status-green'; statusTitle = 'Активен сейчас'; }
+          else if (lastSeenSec < 10) { statusClass = 'status-orange'; statusTitle = 'Был недавно'; }
           usersHTML += `
-            <div class="online-user" style="
-              display: flex;
-              align-items: center;
-              margin: 8px 0;
-              padding: 8px;
-              background: ${isCurrentUser ? 'rgba(76, 175, 80, 0.1)' : 'transparent'};
-              border-radius: 8px;
-              border: 1px solid ${isCurrentUser ? '#4CAF50' : 'var(--panel-border)'};
-            ">
-              ${user.avatar ? `
-                <img src="${user.avatar}" style="
-                  width: 32px;
-                  height: 32px;
-                  border-radius: 50%;
-                  margin-right: 10px;
-                  border: 1px solid ${user.color || '#aaa'};
-                " alt="${user.nick}">
-              ` : `
-                <div style="
-                  width: 32px;
-                  height: 32px;
-                  border-radius: 50%;
-                  margin-right: 10px;
-                  background: ${user.color || '#666'};
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  color: white;
-                  font-size: 12px;
-                ">${user.nick.charAt(0)}</div>
-              `}
-              
-              <div style="flex-grow: 1;">
-                <div style="display: flex; align-items: center;">
-                  <strong style="color: ${user.color || 'var(--text)'};">${user.nick}</strong>
-                  ${isCurrentUser ? '<span style="margin-left: 5px; font-size: 11px; color: #4CAF50;">(Вы)</span>' : ''}
-                </div>
-                <div style="font-size: 11px; color: #888;">
-                  ID: ${user.id}
-                </div>
-              </div>
-              
+            <div class="online-user" style="display:flex; align-items:center; margin:8px 0; padding:8px; background:${isCurrentUser ? 'rgba(76,175,80,0.1)' : 'transparent'}; border-radius:8px; border:1px solid ${isCurrentUser ? '#4CAF50' : 'var(--panel-border)'};">
+              ${user.avatar ? `<img src="${user.avatar}" style="width:32px; height:32px; border-radius:50%; margin-right:10px; border:1px solid ${user.color || '#aaa'};">` : `<div style="width:32px; height:32px; border-radius:50%; margin-right:10px; background:${user.color || '#666'}; display:flex; align-items:center; justify-content:center; color:white;">${user.nick.charAt(0)}</div>`}
+              <div style="flex-grow:1;"><strong style="color:${user.color || 'var(--text)'};">${user.nick}</strong>${isCurrentUser ? '<span style="margin-left:5px; font-size:11px; color:#4CAF50;">(Вы)</span>' : ''}<div style="font-size:11px; color:#888;">ID: ${user.id}</div></div>
               <div class="status-dot ${statusClass}" title="${statusTitle}"></div>
-            </div>
-          `;
+            </div>`;
         });
-        
         onlineList.innerHTML = usersHTML;
       });
-      
-      window.addEventListener('beforeunload', function() {
-        onlineUsersRef.child(userID).remove();
-      });
+      window.addEventListener('beforeunload', () => onlineUsersRef.child(userID).remove());
     }
 
-    // ========== ОСНОВНЫЕ ОБРАБОТЧИКИ ==========
-
-    db.ref("messages").on("child_added", snapshot => {
-      addMessage(snapshot.val(), snapshot.key);
-    }, err => {
-      console.error("Ошибка подписки:", err);
-      alert("Нет доступа к чтению: " + err.code);
-    });
+    db.ref("messages").on("child_added", snapshot => addMessage(snapshot.val(), snapshot.key));
 
     document.getElementById('sendBtn').onclick = send;
-    document.getElementById('text').addEventListener("keydown", e => {
-      if (e.key === "Enter") { e.preventDefault(); send(); }
-    });
-
+    document.getElementById('text').addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); send(); } });
     document.getElementById('nickColorBtn').onclick = () => document.getElementById('nickColorInput').click();
     document.getElementById('bubbleColorBtn').onclick = () => document.getElementById('bubbleColorInput').click();
-
-    document.getElementById('nick').addEventListener('input', function() {
-      saveSettings();
-      updateOnlineStatus();
-    });
-
-    document.getElementById('nickColorInput').addEventListener("input", e => {
-      nickColor = e.target.value;
-      updateButtons();
-      saveSettings();
-    });
-    
-    document.getElementById('bubbleColorInput').addEventListener("input", e => {
-      bubbleColor = e.target.value;
-      updateButtons();
-      saveSettings();
-    });
-
+    document.getElementById('nick').addEventListener('input', () => { saveSettings(); updateOnlineStatus(); });
+    document.getElementById('nickColorInput').addEventListener("input", e => { nickColor = e.target.value; updateButtons(); saveSettings(); });
+    document.getElementById('bubbleColorInput').addEventListener("input", e => { bubbleColor = e.target.value; updateButtons(); saveSettings(); });
     document.getElementById('avatarBtn').onclick = () => document.getElementById('avatarInput').click();
     document.getElementById('avatarInput').addEventListener("change", e => {
-      const file = e.target.files[0]; 
+      const file = e.target.files[0];
       if (!file) return;
       const reader = new FileReader();
       reader.onload = ev => {
         avatarData = ev.target.result;
-        const preview = document.getElementById('avatarPreview');
-        preview.src = avatarData;
-        preview.style.display = "inline-block";
+        document.getElementById('avatarPreview').src = avatarData;
+        document.getElementById('avatarPreview').style.display = "inline-block";
         localStorage.setItem('fchat_avatar', avatarData);
         updateOnlineStatus();
       };
@@ -758,59 +602,22 @@
     const settingsBtn = document.getElementById('settingsBtn');
     const settingsPanel = document.getElementById('settingsPanel');
     const themeRadios = document.querySelectorAll('input[name="theme"]');
-
     const savedTheme = localStorage.getItem('fchat-theme') || 'light';
-    document.body.classList.remove('theme-light','theme-dark','theme-lumia','theme-Keket');
     document.body.classList.add(`theme-${savedTheme}`);
     themeRadios.forEach(r => r.checked = r.value === savedTheme);
+    settingsBtn.addEventListener('click', (e) => { e.stopPropagation(); settingsPanel.style.display = settingsPanel.style.display === 'block' ? 'none' : 'block'; });
+    document.addEventListener('click', (e) => { if (!settingsPanel.contains(e.target) && e.target !== settingsBtn) settingsPanel.style.display = 'none'; });
+    themeRadios.forEach(radio => radio.addEventListener('change', (e) => { document.body.className = `theme-${e.target.value}`; localStorage.setItem('fchat-theme', e.target.value); updateButtons(); }));
 
-    settingsBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const open = settingsPanel.style.display === 'block';
-      settingsPanel.style.display = open ? 'none' : 'block';
-    });
+    function addEmoji(emoji) { document.getElementById('text').value += emoji; document.getElementById('text').focus(); }
+    document.getElementById('emojiBtn').onclick = () => { const panel = document.getElementById('emojiPanel'); panel.style.display = panel.style.display === 'none' ? 'block' : 'none'; };
+    document.getElementById('emojiPanel').addEventListener('click', (e) => { if (e.target.tagName === 'BUTTON') addEmoji(e.target.textContent); });
 
-    document.addEventListener('click', (e) => {
-      if (!settingsPanel.contains(e.target) && e.target !== settingsBtn) {
-        settingsPanel.style.display = 'none';
-      }
-    });
-
-    themeRadios.forEach(radio => {
-      radio.addEventListener('change', (e) => {
-        const val = e.target.value;
-        document.body.classList.remove('theme-light','theme-dark','theme-lumia','theme-Keket','theme-cosmos');
-        document.body.classList.add(`theme-${val}`);
-        localStorage.setItem('fchat-theme', val);
-        updateButtons();
-      });
-    });
-
-    function addEmoji(emoji) {
-      const input = document.getElementById('text');
-      input.value += emoji;
-      input.focus();
-    }
-
-    document.getElementById('emojiBtn').onclick = () => {
-      const panel = document.getElementById('emojiPanel');
-      panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
-    };
-
-    document.getElementById('emojiPanel').addEventListener('click', (e) => {
-      if (e.target.tagName === 'BUTTON') {
-        addEmoji(e.target.textContent);
-      }
-    });
-
-    // Инициализация
     updateButtons();
     setupOnlineTracker();
+    setupPrivateMessages();
   </script>
 
-  <footer style="text-align:center; padding:10px; font-size:14px; color:#888;">
-    © Ikogdash, 2025-2026
-  </footer>
+  <footer style="text-align:center; padding:10px; font-size:14px; color:#888;">© Ikogdash, 2025-2026</footer>
 </body>
 </html>
-
