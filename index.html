@@ -4,13 +4,10 @@
   <meta charset="utf-8">
   <title>Fchat</title>
   <meta name="description" content="Fchat — чат с характером. Здесь ты получаешь уникальный ID, можешь выбрать тему оформления, настроить цвет ника и аватарку. Общайся, находи новых знакомых и друзей, отправляй личные сообщения, настраивай свой уникальный стиль в чате. Твой уютный уголок в интернете!">
-  <meta name="keywords" content="чат, онлайн-чат, Fchat, общение, Ikogdash, форум, эфчат, фчат, Икогдаш, fchat, Fchat Ikogdash">
-  <link rel="canonical" href="https://ikogdash-del.github.io/fchat/">
-  <meta property="og:title" content="Fchat — чат с характером">
+  <meta name="keywords" content="чат, онлайн-чат, Fchat, общение, Ikogdash, форум, эфчат, фчат, Икогдаш, fchat">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body { font-family: sans-serif; margin: 20px; }
-
     body.theme-light {
       --bg: #f0f2f5;
       --text: #1b1f26;
@@ -23,7 +20,6 @@
       --bubble-text: #1b1f26;
       --nickname: #000000; 
     }
-
     body.theme-dark {
       --bg: #1e1e1e;
       --text: #e6e6e6;
@@ -36,7 +32,6 @@
       --bubble-text: #ffffff;
       --nickname: #000000;
     }
-
     body.theme-lumia {
       --bg: #FAF9F6;
       --text: #333333;
@@ -49,7 +44,6 @@
       --bubble-text: #1b1f26;
       --nickname: #000000;
     }
-
     body.theme-Keket {
       --bg: #000000;
       --text: #FFFFFF;
@@ -62,7 +56,6 @@
       --bubble-text: #FFFFFF;
       --nickname: #000000;
     }
-
     body.theme-cosmos {
       --bg: #0b0c10;
       --text: #c5c6c7;
@@ -75,9 +68,7 @@
       --bubble-text: #ffffff;
       --nickname: #000000;
     }
-
     body { background: var(--bg); color: var(--text); transition: background 200ms ease, color 200ms ease; }
-
     #chat {
       border: 1px solid var(--chat-border);
       padding: 10px;
@@ -87,49 +78,38 @@
       background: var(--chat-bg);
       border-radius: 8px;
     }
-
     .msg { display: flex; align-items: flex-start; margin: 8px 0; }
     .avatar { width: 40px; height: 40px; border-radius: 50%; margin-right: 8px; object-fit: cover; border: 1px solid #aaa; }
-
     .bubble { position: relative; padding: 8px 12px; border-radius: 12px; max-width: 70%; word-wrap: break-word; }
     .bubble.incoming { background: var(--bubble-incoming); color: var(--bubble-text); }
     .bubble.outgoing { background: var(--bubble-outgoing); color: var(--bubble-text); }
-
     .nick { font-weight: bold; margin-right: 6px; color: var(--nickname); }
     .time { display: block; font-size: 11px; color: #555; text-align: right; margin-top: 4px; }
-   .user-id {
+    .user-id {
       color: #808080;
       font-size: 0.85em;
       margin-left: 6px;
       text-shadow: 1px 1px 2px #000000;
     }
-
     .deleteBtn { position: absolute; top: -10px; right: -10px; background: #e63946; border: none; border-radius: 50%; width: 22px; height: 22px; color: #fff; cursor: pointer; font-size: 14px; line-height: 22px; text-align: center; display: none; }
     .bubble:hover .deleteBtn { display: block; }
-
     .chatImage { max-width: 200px; border-radius: 8px; margin-top: 5px; }
-
     input, button { padding: 6px; border: 1px solid #ccc; border-radius: 6px; margin: 2px; cursor: pointer; }
     #sendBtn { background: #666; color: #fff; }
     #sendBtn:hover { background: #444; }
-
     .color-btn { width: 140px; height: 30px; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
     #avatarPreview { width: 40px; height: 40px; border: 1px solid #aaa; border-radius: 50%; object-fit: cover; margin-left: 10px; vertical-align: middle; display: none; }
-
     #settingsBtn { position: fixed; right: 12px; top: 12px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: 8px; padding: 6px 8px; cursor: pointer; z-index: 1000; }
     #settingsPanel { position: fixed; right: 12px; top: 52px; width: 240px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: 12px; padding: 10px 12px; box-shadow: 0 10px 24px rgba(0,0,0,0.25); display: none; z-index: 1001; }
     #settingsPanel .row { margin: 6px 0; }
-
     #emojiBtn { font-size: 18px; padding: 4px 8px; margin-left: 4px; cursor: pointer; }
     #emojiPanel button { font-size: 20px; padding: 4px; margin: 2px; border: none; background: transparent; cursor: pointer; }
     #emojiPanel button:hover { transform: scale(1.2); }
-
     body.theme-light #emojiPanel button,
     body.theme-lumia #emojiPanel button { color: #000000; }
     body.theme-dark #emojiPanel button,
     body.theme-Keket #emojiPanel button,
     body.theme-cosmos #emojiPanel button { color: #ffffff; }
-
     #right-sidebar {
       position: fixed;
       right: 80px;
@@ -144,20 +124,16 @@
       overflow-y: auto;
       z-index: 1000;
     }
-
     .online-user { transition: all 0.2s ease; }
     .online-user:hover { transform: translateX(-3px); background: var(--bg) !important; }
-
     #right-sidebar::-webkit-scrollbar { width: 6px; }
     #right-sidebar::-webkit-scrollbar-track { background: transparent; }
     #right-sidebar::-webkit-scrollbar-thumb { background: var(--panel-border); border-radius: 3px; }
     #right-sidebar::-webkit-scrollbar-thumb:hover { background: var(--text); }
-
     .status-dot { width: 10px; height: 10px; border-radius: 50%; }
     .status-green { background: #4CAF50; }
     .status-orange { background: #FF9800; }
     .status-red { background: #F44336; }
-
     .private-notification {
       background: var(--panel);
       border-left: 4px solid #4CAF50;
@@ -167,7 +143,6 @@
       cursor: pointer;
     }
     .private-notification:hover { transform: translateX(5px); }
-
     @media (max-width: 900px) {
       #chat { width: 100%; margin-right: 0; }
       #right-sidebar { position: relative; right: auto; top: auto; width: 100%; margin-top: 20px; max-height: 200px; }
@@ -179,7 +154,6 @@
 <body class="theme-light">
   <div id="chat-header" class="chat-header"></div>
   <h2>Fchat <span id="unreadBadge" style="display: none;"></span></h2>
-
   <button id="settingsBtn" aria-label="Открыть настройки" title="Настройки">⚙️</button>
   <div id="settingsPanel" role="dialog" aria-modal="true" aria-label="Настройки">
     <div class="row"><strong>Тема:</strong></div>
@@ -189,7 +163,6 @@
     <div class="row"><label><input type="radio" name="theme" value="Keket"> Кекет</label></div>
     <div class="row"><label><input type="radio" name="theme" value="cosmos"> Тёмная бирюза</label></div>
   </div>
-
   <div id="right-sidebar">
     <h3 style="margin-top: 0; color: var(--text);"> Пользователи в чате</h3>
     <div style="margin-bottom: 15px;">
@@ -200,9 +173,7 @@
       <p id="noUsersOnline" style="color: #999; font-style: italic; text-align: center;">Загрузка списка...</p>
     </div>
   </div>
-
   <div id="chat"></div>
-
   <div>
     <input id="nick" placeholder="Ваш ник">
     <input id="nickColorInput" type="color" style="display:none;">
@@ -219,20 +190,19 @@
     <input id="fileInput" type="file" accept="image/*">
     <button id="sendBtn">Отправить</button>
   </div>
-
   <div id="emojiPanel" style="display:none; margin-top:6px;">
     <button>=)</button><button>=(</button><button>=3</button><button>=0</button>
     <button>(≧▽≦)</button><button>(⊙_☉)</button><button>(；＿；)</button>
     <button>¯\_(ツ)_/¯</button><button>(╯°□°）╯︵ ┻━┻</button>
     <button>-_-</button><button>о_О</button><button>(͡° ͜ʖ ͡°)</button>
   </div>
-
   <details><summary>О Fchat</summary><strong>Fchat — чат с характером.</strong><br>Это сайт для общения, где каждый пользователь получает уникальный ID,<br>может настраивать цвет ника, цвет облачка сообщений, аватар и стиль.<br>Поддерживаются темы оформления, эмодзи‑панель, отправка изображений и мини‑игры (например, 🎲 кубик).<br></details>
   <details><summary>Как пользоваться</summary><ul><li>После захода на сайт вам автоматически выдаётся случайный ID.<br>Он отображается в заголовке страницы и рядом с вашими сообщениями — это ваш «паспорт» в чате.<br></li><li>В самой правой части сайта есть счётчик пользователей в чате.<br>Рядом с каждым пользователем отображаются индикаторы‑кружочки, которые показывают статус активности:<br><ul><li><span style="color:#4caf50;">●</span> Зелёный — пользователь активен прямо сейчас.</li><li><span style="color:#ff9800;">●</span> Оранжевый — недавно был активен, имеет плохое соединение или находится в режиме AFK.</li><li><span style="color:#f44336;">●</span> Красный — не проявлял активности более 12–60 секунд.</li></ul>Счётчик обновляется каждые 5-10 секунд.</li><li>Далее введите своё имя или псевдоним в поле «Ник». Если поле оставить пустым — будет использоваться никнейм «Anon».</li><li>Настройте цвет ника и облачка (фон сообщения) через специальные кнопки.</li><li>Добавьте аватарку через кнопку «Выбрать аватарку».</li><li>В правом верхнем углу есть кнопка «шестерёнка».<br>Там можно выбрать тему оформления (светлая, тёмная, Lumia, Keket, Тёмная бирюза).<br></li><li>Напишите текст в поле ввода и отправьте его кнопкой «Отправить» или клавишей Enter.</li><li>Прикрепите изображение с помощью кнопки «Выбор файла».</li><li>Используйте панель «=)» для вставки текстовых эмодзи и каомодзи.</li><li>В чате доступны команды, например:<br><code>/dice</code> — бросок кубика 🎲, <code>/msgs</code> — количество сообщений за всё время 📊,<br><code>/8ball</code> — шуточный шар предсказаний и ответов на вопросы 🔮.<br> <strong>Команды для личных сообщений:</strong> <br><code>/msg ID(получателя) текст сообщения</code> — отправка личных сообщений 💌.<br><code>/reply</code> — ответ последнему пользователю, который написал личное сообщение ↩️.  <br><code>/inbox</code> — все личные сообщения от других пользователей 📬. <br> </li></ul></details>
   <details><summary>Правила</summary><ul><li>Уважайте других участников чата.</li><li>Запрещено злоупотреблять ненормативной лексикой, использовать спам и флуд.</li><li>Запрещено распространять личные данные без согласия другого человека.</li><li>Мини игры и команды предназначены для развлечения, а не для спама.</li><li>Запрещено публиковать материалы (фото, сообщения) с темой 18+.</li></ul></details>
   <details><summary>Список обновлений и новостей</summary><ul><li><strong>02.02.2026</strong> — Начало ведения журнала обновлений</li><li><strong>02.02.2026</strong> — Теперь можно удалять только свои сообщения.<br>Единственный, кто может удалять все сообщения — админ (ID 51599).</li><li><strong>07.02.2026</strong> — Добавлены новые команды: <code>/msgs</code> и <code>/8ball</code></li><li><strong>07.02.2026</strong> — В панели эмодзи стандартные смайлы заменены на текстовые каомодзи и другие эмодзи.</li><li><strong>07.02.2026</strong> — Добавлены новые каомодзи и эмодзи в панель текстовых эмодзи:<br>=) =( =3 =0 (≧▽≦) (⊙_☉) (；＿；) ¯\_(ツ)_/¯ (╯°□°）╯︵ ┻━┻ -_- о_О (͡° ͜ʖ ͡°).</li><li><strong>08.02.2026</strong> — Добавлен счётчик пользователей в чате, который обновляется каждые 5-10 секунд.</li><li><strong>08.02.2026</strong> — Добавлены индикаторы активности:<br>зелёный — активен прямо сейчас,<br>оранжевый — был недавно, афк, плохое соединение,<br>красный — неактивен более 12–60 секунд.</li><li><strong>08.02.2026</strong> — Улучшена тема оформления «Кекет».</li><li><strong>08.03.2026</strong> — Улучшены темы, немного изменён дизайн.</li><li><strong>08.03.2026</strong> — Изменена команда <code>/8ball</code>.</li><li><strong>24.03.2026</strong> — Добавлены личные сообщения и команды для них: <code>/msg</code>, <code>/reply</code>, <code>/inbox</code>.</li>
 <li><strong>24.03.2026</strong> — Исправлено отображение команд</li>
 <li><strong>24.03.2026</strong> — Добавлена команда <code>/help</code>.</li>
+<li><strong>04.04.2026</strong> — Добавлена система банов: <code>/ban</code>, <code>/unban</code>, <code>/banlist</code>.</li>
 </ul></details>
   <details><summary>Контакты и обратная связь</summary><ul><li>ID администратора: <strong>51599</strong>, ник — <strong>Ikogdash</strong>.</li><li>Вы можете связаться с администратором через Outlook Live: <em>ikogdash@hotmail.com</em>.</li><li>Мы ценим ваш отклик и поддержку: делитесь отзывами, предлагайте новые функции, сообщайте об ошибках и о нарушителях правил.</li></ul></details>
 
@@ -255,6 +225,7 @@
     const db = firebase.database();
     const onlineUsersRef = db.ref("onlineUsers");
     const privateMessagesRef = db.ref("privateMessages");
+    const bannedUsersRef = db.ref("bannedUsers");
 
     let avatarData = "";
     let nickColor = "";
@@ -391,12 +362,10 @@
       chat.scrollTop = chat.scrollHeight;
     }
 
-    function handleCommand(text) {
-      // Обычные команды
-
-if (text === "/help") {
-    return "🎮 Команды Fchat:\n/dice — бросить кубик 🎲\n/msgs — количество сообщений 📊\n/8ball — шар предсказаний 🔮\n/msg ID текст — личное сообщение 💌\n/reply текст — ответить последнему собеседнику ↩️\n/inbox — все личные сообщения 📬";
-  }
+    async function handleCommand(text) {
+      if (text === "/help") {
+        return "🎮 Команды Fchat:\n/dice — бросить кубик 🎲\n/msgs — количество сообщений 📊\n/8ball — шар предсказаний 🔮\n/msg ID текст — личное сообщение 💌\n/reply текст — ответить ↩️\n/inbox — все личные сообщения 📬\n/ban ID [причина] — забанить (админ)\n/unban ID — разбанить (админ)\n/banlist — список банов (админ)";
+      }
       if (text.startsWith("/dice")) {
         const roll = Math.floor(Math.random() * 6) + 1;
         return "🎲 Выпало: " + roll;
@@ -470,15 +439,67 @@ if (text === "/help") {
         return `✉️ Ответ отправлен ID:${lastPrivateFrom}`;
       }
       
+      // БАН
+      if (text.startsWith("/ban ") && userID === "51599") {
+        const parts = text.split(' ');
+        const targetId = parts[1];
+        if (!targetId || targetId.length !== 5) return "❌ Использование: /ban 12345 [причина]";
+        if (targetId === userID) return "❌ Нельзя забанить самого себя";
+        const reason = parts.slice(2).join(' ') || "Нарушение правил";
+        await bannedUsersRef.child(targetId).set({
+          bannedBy: userID,
+          date: new Date().toLocaleString(),
+          reason: reason
+        });
+        addMessage({ nick: "FchatBot", text: `🚫 Администратор забанил пользователя ID:${targetId} (${reason})`, id: "BOT", time: new Date().toLocaleTimeString().slice(0,5) });
+        return `✅ Пользователь ID:${targetId} забанен. Причина: ${reason}`;
+      }
+      
+      // РАЗБАН
+      if (text.startsWith("/unban ") && userID === "51599") {
+        const targetId = text.split(' ')[1];
+        if (!targetId) return "❌ Использование: /unban 12345";
+        await bannedUsersRef.child(targetId).remove();
+        addMessage({ nick: "FchatBot", text: `✅ Администратор разбанил пользователя ID:${targetId}`, id: "BOT", time: new Date().toLocaleTimeString().slice(0,5) });
+        return `✅ Пользователь ID:${targetId} разбанен`;
+      }
+      
+      // СПИСОК ЗАБАНЕННЫХ
+      if (text === "/banlist" && userID === "51599") {
+        const snapshot = await bannedUsersRef.once("value");
+        const bans = snapshot.val();
+        if (!bans) {
+          addMessage({ nick: "FchatBot", text: "📋 Список банов пуст", id: "BOT", time: new Date().toLocaleTimeString().slice(0,5) });
+          return null;
+        }
+        let list = "🚫 Забаненные пользователи:\n";
+        for (const [id, data] of Object.entries(bans)) {
+          list += `ID: ${id} — ${data.reason} (${data.date})\n`;
+        }
+        addMessage({ nick: "FchatBot", text: list, id: "BOT", time: new Date().toLocaleTimeString().slice(0,5) });
+        return null;
+      }
+      
       return null;
     }
 
-    function send() {
+    async function send() {
       const nick = document.getElementById('nick').value.trim() || "Anon";
       const text = document.getElementById('text').value.trim();
       const fileInput = document.getElementById('fileInput');
       const file = fileInput.files[0];
       if (!text && !file) return;
+
+      // ПРОВЕРКА НА БАН
+      const bannedCheck = await bannedUsersRef.child(userID).once("value");
+      if (bannedCheck.exists()) {
+        const now = new Date();
+        const timeStr = now.getHours().toString().padStart(2,'0') + ":" + now.getMinutes().toString().padStart(2,'0');
+        addMessage({ nick: "FchatBot", text: "🚫 Вы забанены и не можете отправлять сообщения", id: "BOT", time: timeStr });
+        document.getElementById('text').value = '';
+        fileInput.value = '';
+        return;
+      }
 
       const now = new Date();
       const timeStr = now.getHours().toString().padStart(2,'0') + ":" + now.getMinutes().toString().padStart(2,'0');
@@ -493,12 +514,10 @@ if (text === "/help") {
         time: timeStr
       };
 
-      const commandResult = handleCommand(text);
+      const commandResult = await handleCommand(text);
       
       if (commandResult) {
-        // Показываем команду пользователя
         addMessage(msg);
-        // Показываем ответ бота
         addMessage({ nick: "FchatBot", text: commandResult, id: "BOT", time: timeStr });
         document.getElementById('text').value = '';
         fileInput.value = '';
@@ -622,4 +641,4 @@ if (text === "/help") {
 
   <footer style="text-align:center; padding:10px; font-size:14px; color:#888;">© Ikogdash, 2025-2026</footer>
 </body>
-</html>
+</html> 
